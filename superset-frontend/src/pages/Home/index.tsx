@@ -55,6 +55,7 @@ import ActivityTable from 'src/features/home/ActivityTable';
 import ChartTable from 'src/features/home/ChartTable';
 import SavedQueries from 'src/features/home/SavedQueries';
 import DashboardTable from 'src/features/home/DashboardTable';
+import BuiltWithDevinBadge from 'src/features/home/BuiltWithDevinBadge';
 
 const extensionsRegistry = getExtensionsRegistry();
 
@@ -350,6 +351,7 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
         <SubMenu {...menuData} />
       )}
       <WelcomeContainer>
+        <BuiltWithDevinBadge />
         {WelcomeMessageExtension && <WelcomeMessageExtension />}
         {WelcomeTopExtension && <WelcomeTopExtension />}
         {WelcomeMainExtension && <WelcomeMainExtension />}
