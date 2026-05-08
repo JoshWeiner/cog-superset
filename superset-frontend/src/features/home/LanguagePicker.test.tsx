@@ -67,3 +67,40 @@ test('should render the items', async () => {
   expect(await screen.findByText('English')).toBeInTheDocument();
   expect(await screen.findByText('Italian')).toBeInTheDocument();
 });
+
+test('should render without crashing when locale is missing from languages', async () => {
+  // Repro for upstream issue apache/superset#39855: when the active locale is
+  // not present in the LANGUAGES config, the picker must not throw and must
+  // still render the menu.
+  const propsWithMissingLocale = {
+    locale: 'de',
+    languages: {
+      en: {
+        flag: 'us',
+        name: 'English',
+        url: '/lang/en',
+      },
+    },
+  };
+  const { container } = render(
+    <TestLanguagePicker {...propsWithMissingLocale} />,
+    { useRouter: true },
+  );
+  expect(await screen.findByRole('menu')).toBeInTheDocument();
+  expect(container).toBeInTheDocument();
+});
+
+test('should render without crashing when a language entry is missing fields', async () => {
+  const propsWithPartialEntry = {
+    locale: 'en',
+    languages: {
+      en: {} as Record<string, never>,
+    },
+  };
+  const { container } = render(
+    <TestLanguagePicker {...propsWithPartialEntry} />,
+    { useRouter: true },
+  );
+  expect(await screen.findByRole('menu')).toBeInTheDocument();
+  expect(container).toBeInTheDocument();
+});
