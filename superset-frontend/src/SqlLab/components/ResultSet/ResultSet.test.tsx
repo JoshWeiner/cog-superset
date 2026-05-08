@@ -545,6 +545,47 @@ describe('ResultSet', () => {
     });
   });
 
+  test('renders the displayed-rows CSV button enabled when results have data', async () => {
+    const { getByTestId } = setup(
+      mockedProps,
+      mockStore({
+        ...initialState,
+        user: {
+          ...user,
+          roles: {
+            sql_lab: [['can_export_csv', 'SQLLab']],
+          },
+        },
+        sqlLab: {
+          ...initialState.sqlLab,
+          queries: {
+            [queries[0].id]: queries[0],
+          },
+        },
+      }),
+    );
+    const button = getByTestId('download-displayed-csv-button');
+    expect(button).toBeInTheDocument();
+    expect(button).toBeEnabled();
+  });
+
+  test('disables the displayed-rows CSV button when the user lacks export permission', async () => {
+    const { getByTestId } = setup(
+      mockedProps,
+      mockStore({
+        ...initialState,
+        user,
+        sqlLab: {
+          ...initialState.sqlLab,
+          queries: {
+            [queries[0].id]: queries[0],
+          },
+        },
+      }),
+    );
+    expect(getByTestId('download-displayed-csv-button')).toBeDisabled();
+  });
+
   test('should not allow download as CSV when user does not have permission to export data', async () => {
     const { queryByTestId } = setup(
       mockedProps,

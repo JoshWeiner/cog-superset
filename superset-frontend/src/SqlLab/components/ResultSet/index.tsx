@@ -87,6 +87,10 @@ import { StreamingExportModal } from 'src/components/StreamingExportModal';
 import { useStreamingExport } from 'src/components/StreamingExportModal/useStreamingExport';
 import { useConfirmModal } from 'src/hooks/useConfirmModal';
 import { makeUrl } from 'src/utils/pathUtils';
+import {
+  buildCsvFileName,
+  encodeCsv,
+} from 'src/SqlLab/utils/csvEncode';
 import ExploreCtasResultsButton from '../ExploreCtasResultsButton';
 import ExploreResultsButton from '../ExploreResultsButton';
 import HighlightedSql from '../HighlightedSql';
@@ -385,6 +389,27 @@ const ResultSet = ({
         }
       };
 
+      const hasDisplayedRows = !!data?.length;
+      const handleDownloadDisplayedCsv = () => {
+        if (!canExportData || !hasDisplayedRows) return;
+        logAction(LOG_ACTIONS_SQLLAB_DOWNLOAD_CSV, {});
+        const csvContent = encodeCsv(
+          data,
+          columns.map(c => c.column_name),
+        );
+        const blob = new Blob([`\uFEFF${csvContent}`], {
+          type: 'text/csv;charset=utf-8;',
+        });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = buildCsvFileName(query.id);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      };
+
       const defaultPrimaryActions = (
         <>
           {visualize && database?.allows_virtual_table_explore && (
@@ -429,6 +454,25 @@ const ResultSet = ({
                   handleDownloadCsv(e);
                 }
               }}
+            />
+          )}
+          {csv && (
+            <Button
+              buttonSize="small"
+              variant="text"
+              color="primary"
+              icon={<Icons.FileTextOutlined iconSize="m" />}
+              tooltip={
+                !canExportData
+                  ? t("You don't have permission to export data")
+                  : !hasDisplayedRows
+                    ? t('No rows to download')
+                    : t('Download displayed rows as CSV')
+              }
+              aria-label={t('Download displayed rows as CSV')}
+              disabled={!canExportData || !hasDisplayedRows}
+              data-test="download-displayed-csv-button"
+              onClick={handleDownloadDisplayedCsv}
             />
           )}
           <CopyToClipboard
