@@ -102,6 +102,12 @@ See [Connecting AI Clients](#connecting-ai-clients) for Claude Code, Claude Web,
 - Python 3.10+
 - The `fastmcp` package (`pip install fastmcp`)
 
+:::warning Docker image support
+The `superset mcp` CLI is **not** included in the publicly published `apache/superset:latest` (or other tagged) Docker images on Docker Hub. Running `superset mcp run` against those images will fail with `Error: No such command 'mcp'`.
+
+To use MCP with Docker, build the image locally from this repository — `docker-compose.yml` and `docker-compose-light.yml` use a `build:` context that includes the MCP CLI and the `fastmcp` extra. See the [Docker Compose](#docker-compose) section below for an example.
+:::
+
 ---
 
 ## Authentication
@@ -427,13 +433,19 @@ server {
 
 ### Docker Compose
 
-Run Superset and the MCP server as separate containers sharing the same config:
+Run Superset and the MCP server as separate containers sharing the same config.
+
+:::warning
+The published `apache/superset:latest` image on Docker Hub does **not** ship the `superset mcp` CLI. Build the image from this repository (or another build that bundles the `fastmcp` extra and the `superset/cli/mcp.py` command) — otherwise `superset mcp run` will fail with `Error: No such command 'mcp'`.
+:::
 
 ```yaml
 # docker-compose.yml
 services:
   superset:
-    image: apache/superset:latest
+    build:
+      context: .
+      target: ${SUPERSET_BUILD_TARGET:-dev}
     ports:
       - "8088:8088"
     volumes:
@@ -442,7 +454,9 @@ services:
       - SUPERSET_CONFIG_PATH=/app/superset_config.py
 
   mcp:
-    image: apache/superset:latest
+    build:
+      context: .
+      target: ${SUPERSET_BUILD_TARGET:-dev}
     command: ["superset", "mcp", "run", "--host", "0.0.0.0", "--port", "5008"]
     ports:
       - "5008:5008"
