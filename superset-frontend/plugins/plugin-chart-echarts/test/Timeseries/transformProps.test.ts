@@ -1585,6 +1585,73 @@ test('temporal x coltype wires the time formatter and Time axis', () => {
   expect(label).not.toBe(String(ts1));
 });
 
+test('time x-axis date labels render in deep crimson color', () => {
+  const ts1 = 1745784000000;
+  const ts2 = 1745870400000;
+  const chartProps = createTestChartProps({
+    formData: {
+      metrics: ['metric'],
+      granularity_sqla: 'ds',
+      x_axis: '__timestamp',
+    },
+    queriesData: [
+      createTestQueryData(
+        [
+          { __timestamp: ts1, metric: 10 },
+          { __timestamp: ts2, metric: 20 },
+        ],
+        {
+          colnames: ['__timestamp', 'metric'],
+          coltypes: [GenericDataType.Temporal, GenericDataType.Numeric],
+        },
+      ),
+    ],
+  });
+
+  const { echartOptions } = transformProps(chartProps);
+  const xAxis = echartOptions.xAxis as {
+    type: string;
+    axisLabel: { color?: string };
+  };
+
+  expect(xAxis.type).toBe(AxisType.Time);
+  expect(xAxis.axisLabel.color).toBe('#8B0000');
+});
+
+test('non-time x-axis labels do not get the deep crimson color override', () => {
+  const ts1 = 1745784000000;
+  const ts2 = 1745870400000;
+  const chartProps = createTestChartProps({
+    formData: {
+      metrics: ['metric'],
+      granularity_sqla: 'ds',
+      x_axis: '__timestamp',
+      xAxisForceCategorical: true,
+    },
+    queriesData: [
+      createTestQueryData(
+        [
+          { __timestamp: ts1, metric: 10 },
+          { __timestamp: ts2, metric: 20 },
+        ],
+        {
+          colnames: ['__timestamp', 'metric'],
+          coltypes: [GenericDataType.Numeric, GenericDataType.Numeric],
+        },
+      ),
+    ],
+  });
+
+  const { echartOptions } = transformProps(chartProps);
+  const xAxis = echartOptions.xAxis as {
+    type: string;
+    axisLabel: { color?: string };
+  };
+
+  expect(xAxis.type).toBe(AxisType.Category);
+  expect(xAxis.axisLabel.color).toBeUndefined();
+});
+
 test('should assign distinct dash patterns for multiple time offsets consistently', () => {
   const queriesDataWithMultipleOffsets = [
     createTestQueryData([

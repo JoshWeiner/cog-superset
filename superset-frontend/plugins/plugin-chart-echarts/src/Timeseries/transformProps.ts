@@ -906,6 +906,9 @@ export default function transformProps(
         showMaxLabel: true,
         alignMaxLabel: 'right',
       }),
+      // Render time-axis (date) labels in a deep crimson color so the
+      // x-axis date values stand out from the rest of the chart chrome.
+      ...(xAxisType === AxisType.Time && { color: '#8B0000' }),
     },
     minorTick: { show: minorTicks },
     minInterval:
