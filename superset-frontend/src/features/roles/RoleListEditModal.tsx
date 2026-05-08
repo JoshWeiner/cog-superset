@@ -36,6 +36,7 @@ import { useToasts } from 'src/components/MessageToasts/withToasts';
 import { fetchPaginatedData } from 'src/utils/fetchOptions';
 import { type UserObject } from 'src/pages/UsersList/types';
 import { ModalTitleWithIcon } from 'src/components/ModalTitleWithIcon';
+import { getUserDisplayLabel } from 'src/features/groups/utils';
 import {
   GroupsField,
   PermissionsField,
@@ -216,7 +217,7 @@ function RoleListEditModal({
     if (!loadingRoleUsers && formRef.current) {
       const userOptions = roleUsers.map(user => ({
         value: user.id,
-        label: user.username,
+        label: getUserDisplayLabel(user),
       }));
 
       formRef.current.setFieldsValue({
@@ -306,7 +307,7 @@ function RoleListEditModal({
     roleUsers:
       roleUsers?.map(user => ({
         value: user.id,
-        label: user.username,
+        label: getUserDisplayLabel(user),
       })) || [],
     roleGroups: group_ids.map(groupId => ({
       value: groupId,

@@ -21,6 +21,20 @@ import { SupersetClient } from '@superset-ui/core';
 import rison from 'rison';
 import { FormValues } from './types';
 
+type UserLike = {
+  username?: string | null;
+  first_name?: string | null;
+  last_name?: string | null;
+};
+
+export const getUserDisplayLabel = (user: UserLike): string => {
+  const fullName = [user.first_name, user.last_name]
+    .filter(Boolean)
+    .join(' ')
+    .trim();
+  return fullName || user.username || '';
+};
+
 export const createGroup = async (values: FormValues) => {
   await SupersetClient.post({
     endpoint: '/api/v1/security/groups/',
@@ -64,7 +78,7 @@ export const fetchUserOptions = async (
     return {
       data: results.map((user: any) => ({
         value: user.id,
-        label: user.username,
+        label: getUserDisplayLabel(user),
       })),
       totalCount: response.json?.count ?? 0,
     };

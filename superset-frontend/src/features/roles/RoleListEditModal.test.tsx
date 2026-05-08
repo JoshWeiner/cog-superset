@@ -146,9 +146,10 @@ describe('RoleListEditModal', () => {
     render(<RoleListEditModal {...mockProps} />);
 
     // Wait for user hydration to complete so setFieldsValue has populated
-    // the form with the fetched users before submitting.
-    await screen.findByText('johndoe');
-    await screen.findByText('janesmith');
+    // the form with the fetched users before submitting. Display labels
+    // prefer first_name + last_name over username (see getUserDisplayLabel).
+    await screen.findByText('John Doe');
+    await screen.findByText('Jane Smith');
 
     fireEvent.change(screen.getByTestId('role-name-input'), {
       target: { value: 'Updated Role' },
