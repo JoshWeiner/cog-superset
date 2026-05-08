@@ -64,31 +64,37 @@ npm run cover
 
 `npm run test` is a thin wrapper around Jest, so any flag after `--` is
 forwarded straight through. Use these to scope a run to just the files or
-test names you are working on.
+test names you are working on. Long-form Jest flags are used so each
+command is self-documenting; the equivalent short flag is shown in the
+comment above each example.
+
+> Note: `npm run test` runs Jest with `--silent`, which suppresses
+> `console.log` output. Use `npm run test-loud` (or pass `--verbose`) when
+> you need full Jest output while iterating.
 
 ```bash
 cd superset-frontend
 
 # Run a single test file by path
-npm run test -- src/components/ListView/ListView.test.tsx
+npm run test-loud -- src/components/ListView/ListView.test.tsx
 
-# Run every test file whose path matches a regex
-npm run test -- ListView
+# Run every test file whose path matches a regex (Jest positional arg)
+npm run test-loud -- ListView
 
-# Run only test cases whose name matches a pattern (Jest -t)
-npm run test -- ListView -t "renders"
+# Filter by a Jest test-name pattern (short form: -t "renders")
+npm run test-loud -- ListView --testNamePattern="renders"
 
 # Run tests for a single workspace package
-npm run test -- packages/superset-ui-core
+npm run test-loud -- packages/superset-ui-core
 
-# Re-run only the tests that failed on the previous run
-npm run test -- --onlyFailures
+# Re-run only the tests that failed on the previous run, with full output
+npm run test-loud -- --onlyFailures --verbose
 
-# Update snapshots for the targeted file
-npm run test -- src/components/ListView/ListView.test.tsx -u
+# Update snapshots for the targeted file (short form: -u)
+npm run test-loud -- src/components/ListView/ListView.test.tsx --updateSnapshot
 
-# Watch mode scoped to a file or pattern
-npm run tdd -- ListView
+# Watch mode scoped to a file or pattern, with verbose Jest output
+npm run tdd -- ListView --verbose
 ```
 
 ### Coverage for a Single Area
@@ -96,14 +102,14 @@ npm run tdd -- ListView
 ```bash
 cd superset-frontend
 
-# Coverage for everything
+# Coverage for everything (writes to coverage/ at the workspace root)
 npm run cover
 
 # 100% coverage gate for the @superset-ui packages (matches CI)
 npm run core:cover
 
-# Coverage for a single file or directory
-npm run test -- --coverage src/components/ListView
+# Coverage for a single file or directory, with verbose Jest output
+npm run test-loud -- --coverage --verbose src/components/ListView
 ```
 
 ---

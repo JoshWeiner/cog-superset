@@ -64,7 +64,9 @@ pytest tests/unit_tests/
 
 When iterating on a change, run only the tests you care about to keep the
 feedback loop fast. The examples below assume you are at the repo root and
-have your virtual environment activated.
+have your virtual environment activated. Long-form flags are used so each
+command is self-documenting; the equivalent short flag is shown in the
+comment above each example.
 
 ```bash
 # Run a single test file
@@ -76,20 +78,25 @@ pytest tests/unit_tests/db_engine_specs/test_postgres.py::test_convert_dttm
 # Run a single test method on a class
 pytest tests/integration_tests/charts/api_tests.py::TestChartApi::test_info
 
-# Run every test whose name matches an expression (-k)
-pytest tests/unit_tests/ -k "convert_dttm and not mysql"
+# Filter by a Python-style name expression (short form: -k EXPRESSION)
+pytest tests/unit_tests/ -k "convert_dttm and not mysql" --verbose
 
-# Run every test tagged with a marker (-m), e.g. slow tests
-pytest -m "slow"
+# Filter by a registered pytest marker (short form: -m MARKEXPR)
+pytest -m "slow" --verbose
 
-# Re-run only the tests that failed on the previous run
-pytest --last-failed
+# Re-run only the tests that failed on the previous run, with full output
+pytest --last-failed --verbose
 
-# Stop after the first failure for a quick TDD loop
-pytest -x tests/unit_tests/db_engine_specs/
+# Stop after the first failure for a quick TDD loop (short form: -x)
+pytest --exitfirst --verbose tests/unit_tests/db_engine_specs/
 
-# Show print() output and full tracebacks while iterating
-pytest -s -vv tests/unit_tests/charts/test_api.py
+# Show print() output and detailed tracebacks while iterating
+#   --capture=no        short form: -s   (do not capture stdout/stderr)
+#   --verbose --verbose short form: -vv  (extra-verbose test reporting)
+#   --showlocals        short form: -l   (show local variables in tracebacks)
+#   --tb=long                            (use the long traceback format)
+pytest --capture=no --verbose --verbose --showlocals --tb=long \
+    tests/unit_tests/db_engine_specs/test_postgres.py
 ```
 
 ### Unit vs. Integration Tests
@@ -98,10 +105,10 @@ The Python suite is split into two top-level directories under `tests/`:
 
 ```bash
 # Fast, isolated unit tests (no database required)
-pytest tests/unit_tests/
+pytest tests/unit_tests/ --verbose
 
 # Integration tests (require a working test environment, see CONTRIBUTING)
-pytest tests/integration_tests/
+pytest tests/integration_tests/ --verbose
 ```
 
 Integration tests require the test config and a populated metadata database.
@@ -112,7 +119,8 @@ The repo provides a helper script that wires this up for you:
 scripts/python_tests.sh
 
 # You can pass any extra pytest args through the script
-scripts/python_tests.sh tests/integration_tests/charts/api_tests.py -k test_info
+scripts/python_tests.sh tests/integration_tests/charts/api_tests.py \
+    -k test_info --verbose
 ```
 
 ## Testing Alerts & Reports with Celery and MailHog
