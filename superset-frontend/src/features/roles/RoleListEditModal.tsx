@@ -42,6 +42,7 @@ import {
   RoleNameField,
   UsersField,
 } from './RoleFormItems';
+import { getUserDisplayLabel } from '../groups/utils';
 import {
   updateRoleGroups,
   updateRoleName,
@@ -216,7 +217,7 @@ function RoleListEditModal({
     if (!loadingRoleUsers && formRef.current) {
       const userOptions = roleUsers.map(user => ({
         value: user.id,
-        label: user.username,
+        label: getUserDisplayLabel(user),
       }));
 
       formRef.current.setFieldsValue({
@@ -306,7 +307,7 @@ function RoleListEditModal({
     roleUsers:
       roleUsers?.map(user => ({
         value: user.id,
-        label: user.username,
+        label: getUserDisplayLabel(user),
       })) || [],
     roleGroups: group_ids.map(groupId => ({
       value: groupId,
