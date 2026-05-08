@@ -58,9 +58,61 @@ pytest -n auto
 
 # Run only unit tests
 pytest tests/unit_tests/
+```
 
-# Run only integration tests
+## Targeted Test Commands
+
+When iterating on a change, run only the tests you care about to keep the
+feedback loop fast. The examples below assume you are at the repo root and
+have your virtual environment activated.
+
+```bash
+# Run a single test file
+pytest tests/unit_tests/db_engine_specs/test_postgres.py
+
+# Run a single test function in a file
+pytest tests/unit_tests/db_engine_specs/test_postgres.py::test_convert_dttm
+
+# Run a single test method on a class
+pytest tests/integration_tests/charts/api_tests.py::TestChartApi::test_info
+
+# Run every test whose name matches an expression (-k)
+pytest tests/unit_tests/ -k "convert_dttm and not mysql"
+
+# Run every test tagged with a marker (-m), e.g. slow tests
+pytest -m "slow"
+
+# Re-run only the tests that failed on the previous run
+pytest --last-failed
+
+# Stop after the first failure for a quick TDD loop
+pytest -x tests/unit_tests/db_engine_specs/
+
+# Show print() output and full tracebacks while iterating
+pytest -s -vv tests/unit_tests/charts/test_api.py
+```
+
+### Unit vs. Integration Tests
+
+The Python suite is split into two top-level directories under `tests/`:
+
+```bash
+# Fast, isolated unit tests (no database required)
+pytest tests/unit_tests/
+
+# Integration tests (require a working test environment, see CONTRIBUTING)
 pytest tests/integration_tests/
+```
+
+Integration tests require the test config and a populated metadata database.
+The repo provides a helper script that wires this up for you:
+
+```bash
+# Equivalent to what CI runs for integration tests
+scripts/python_tests.sh
+
+# You can pass any extra pytest args through the script
+scripts/python_tests.sh tests/integration_tests/charts/api_tests.py -k test_info
 ```
 
 ## Testing Alerts & Reports with Celery and MailHog
