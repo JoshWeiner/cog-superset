@@ -911,9 +911,13 @@ class Superset(BaseSupersetView):
         return json_success(json.dumps(sanitize_datasource_data(datasource.data)))
 
     @event_logger.log_this
-    @has_access
     @expose("/language_pack/<lang>/")
     def language_pack(self, lang: str) -> FlaskResponse:
+        # Translation packs are static, non-sensitive UI strings and are
+        # required by anonymous flows (login page, embedded dashboards loaded
+        # with a guest token) before authentication has been established.
+        # See upstream issue apache/superset#39882.
+
         # Only allow expected language formats like "en", "pt_BR", etc.
         if not re.match(r"^[a-z]{2,3}(_[A-Z]{2})?$", lang):
             abort(400, "Invalid language code")
