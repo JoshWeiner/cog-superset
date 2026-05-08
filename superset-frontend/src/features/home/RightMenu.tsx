@@ -59,6 +59,7 @@ import UploadDataModal from 'src/features/databases/UploadDataModel';
 import { uploadUserPerms } from 'src/views/CRUD/utils';
 import { useThemeContext } from 'src/theme/ThemeProvider';
 import { useThemeMenuItems } from 'src/hooks/useThemeMenuItems';
+import { useDarkModeToggleMenuItem } from 'src/hooks/useDarkModeToggleMenuItem';
 import { useLanguageMenuItems } from './LanguagePicker';
 import {
   ExtensionConfigs,
@@ -367,6 +368,12 @@ const RightMenu = ({
     allowOSPreference: canDetectOSPreference(),
   });
 
+  // Quick single-click dark-mode toggle for the top navigation bar
+  const darkModeToggleItem = useDarkModeToggleMenuItem({
+    setThemeMode,
+    themeMode,
+  });
+
   const languageMenuItem = useLanguageMenuItems({
     locale: navbarRight.locale || 'en',
     languages: navbarRight.languages || {},
@@ -591,6 +598,7 @@ const RightMenu = ({
     }
 
     if (canSetMode()) {
+      items.push(darkModeToggleItem);
       items.push(themeMenuItem);
     }
 
@@ -615,6 +623,7 @@ const RightMenu = ({
     canSetMode,
     theme.colorPrimary,
     themeMenuItem,
+    darkModeToggleItem,
     languageMenuItem,
     dropdownItems,
     roles,
