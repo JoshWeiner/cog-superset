@@ -38,3 +38,46 @@ def test_convert_dashboard_link() -> None:
 def test_convert_dashboard_link_with_integer() -> None:
     test_url = modify_url_query(EXPLORE_DASHBOARD_LINK, standalone=0)
     assert test_url == "http://localhost:9000/superset/dashboard/3/?standalone=0"
+
+
+def test_modify_url_query_with_empty_query() -> None:
+    """A URL with no existing query string should get the new parameter appended."""
+    test_url = modify_url_query("http://localhost:9000/explore/", standalone="1")
+    assert test_url == "http://localhost:9000/explore/?standalone=1"
+
+
+def test_modify_url_query_preserves_fragment() -> None:
+    """The URL fragment should be preserved when modifying query parameters."""
+    test_url = modify_url_query(
+        "http://localhost:9000/superset/dashboard/3/?standalone=3#section",
+        standalone="0",
+    )
+    assert (
+        test_url == "http://localhost:9000/superset/dashboard/3/?standalone=0#section"
+    )
+
+
+def test_modify_url_query_with_fragment_and_no_query() -> None:
+    """A URL with a fragment but no query string should add the query and keep the
+    fragment."""
+    test_url = modify_url_query(
+        "http://localhost:9000/explore/#section", standalone="1"
+    )
+    assert test_url == "http://localhost:9000/explore/?standalone=1#section"
+
+
+def test_modify_url_query_with_repeated_keys_not_overwritten() -> None:
+    """Repeated query keys that are not part of the kwargs collapse to their first
+    value because ``modify_url_query`` only emits ``v[0]`` per key. This regression
+    test pins the current (lossy) behavior."""
+    test_url = modify_url_query(
+        "http://localhost:9000/path?tag=a&tag=b", standalone="1"
+    )
+    assert test_url == "http://localhost:9000/path?tag=a&standalone=1"
+
+
+def test_modify_url_query_overwrites_repeated_keys() -> None:
+    """When the kwargs explicitly target a key that appears multiple times, the new
+    value should fully replace any prior occurrences."""
+    test_url = modify_url_query("http://localhost:9000/path?tag=a&tag=b", tag="c")
+    assert test_url == "http://localhost:9000/path?tag=c"
