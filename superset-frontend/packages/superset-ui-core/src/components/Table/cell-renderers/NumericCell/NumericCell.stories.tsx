@@ -20,7 +20,7 @@ import { StoryFn, Meta } from '@storybook/react';
 import { CurrencyCode, NumericCell, LocaleCode, Style } from './index';
 
 export default {
-  title: 'Design System/Components/Table/Cell Renderers/NumericCell',
+  title: 'Data Display/Table/Cell Renderers/NumericCell',
   component: NumericCell,
 } as Meta<typeof NumericCell>;
 

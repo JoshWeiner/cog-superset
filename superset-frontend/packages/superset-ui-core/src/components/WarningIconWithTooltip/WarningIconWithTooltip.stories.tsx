@@ -19,7 +19,7 @@
 import WarningIconWithTooltip, { WarningIconWithTooltipProps } from '.';
 
 export default {
-  title: 'Components/WarningIconWithTooltip',
+  title: 'Feedback/WarningIconWithTooltip',
   component: WarningIconWithTooltip,
 };
 

@@ -20,7 +20,7 @@ import { Badge } from '.';
 import type { BadgeProps } from './types';
 
 export default {
-  title: 'Components/Badge',
+  title: 'Primitives/Badge',
   component: Badge,
 };
 

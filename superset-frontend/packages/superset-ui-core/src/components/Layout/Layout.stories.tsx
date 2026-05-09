@@ -25,7 +25,7 @@ import { Layout } from '.';
 const { Header, Footer, Sider, Content } = Layout;
 
 export default {
-  title: 'Design System/Components/Layout',
+  title: 'Navigation/Layout',
   component: Layout,
   subcomponents: { Header, Footer, Sider, Content },
   parameters: {

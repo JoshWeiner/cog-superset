@@ -21,7 +21,7 @@ import { TimeFormats } from '@superset-ui/core';
 import TimeCell from '.';
 
 export default {
-  title: 'Design System/Components/Table/Cell Renderers/TimeCell',
+  title: 'Data Display/Table/Cell Renderers/TimeCell',
   component: TimeCell,
 } as Meta<typeof TimeCell>;
 

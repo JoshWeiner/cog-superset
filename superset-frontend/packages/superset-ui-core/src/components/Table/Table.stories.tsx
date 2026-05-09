@@ -42,7 +42,7 @@ import HeaderWithRadioGroup from './header-renderers/HeaderWithRadioGroup';
 import TimeCell from './cell-renderers/TimeCell';
 
 export default {
-  title: 'Design System/Components/Table',
+  title: 'Data Display/Table',
   component: Table,
   parameters: {
     docs: {

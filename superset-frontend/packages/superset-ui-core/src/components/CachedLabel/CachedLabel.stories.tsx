@@ -22,7 +22,7 @@ import { CachedLabel } from '.';
 import type { CacheLabelProps } from './types';
 
 export default {
-  title: 'Components/CachedLabel',
+  title: 'Feedback/CachedLabel',
   component: CachedLabel,
 } as Meta<typeof CachedLabel>;
 

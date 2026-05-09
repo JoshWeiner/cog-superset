@@ -23,7 +23,7 @@ import { Space } from '../Space';
 import { Radio, type RadioProps, type RadioGroupWrapperProps } from '.';
 
 export default {
-  title: 'Components/Radio',
+  title: 'Forms/Radio',
   component: Radio,
   tags: ['autodocs'],
   parameters: {

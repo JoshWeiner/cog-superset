@@ -20,7 +20,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { IconButton } from '.';
 
 export default {
-  title: 'Components/IconButton',
+  title: 'Primitives/IconButton',
   component: IconButton,
   parameters: {
     docs: {

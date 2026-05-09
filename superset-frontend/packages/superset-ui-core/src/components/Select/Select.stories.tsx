@@ -20,7 +20,7 @@ import { SelectOptionsType, SelectProps } from './types';
 import { Select } from '.';
 
 export default {
-  title: 'Components/Select',
+  title: 'Forms/Select',
   component: Select,
   parameters: {
     docs: {

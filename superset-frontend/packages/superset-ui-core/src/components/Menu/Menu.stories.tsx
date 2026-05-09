@@ -19,7 +19,7 @@
 import { Menu, MainNav } from '.';
 
 export default {
-  title: 'Components/Menu',
+  title: 'Navigation/Menu',
   component: Menu as React.FC,
   parameters: {
     docs: {

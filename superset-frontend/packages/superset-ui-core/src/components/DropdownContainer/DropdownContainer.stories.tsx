@@ -25,7 +25,7 @@ import type { DropdownContainerProps, DropdownRef } from './types';
 import { DropdownContainer } from '.';
 
 export default {
-  title: 'Design System/Components/DropdownContainer',
+  title: 'Navigation/DropdownContainer',
   component: DropdownContainer,
   parameters: {
     docs: {

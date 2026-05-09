@@ -20,7 +20,7 @@ import { useArgs } from '@storybook/preview-api';
 import TimezoneSelector, { TimezoneSelectorProps } from './index';
 
 export default {
-  title: 'Components/TimezoneSelector',
+  title: 'Forms/TimezoneSelector',
   component: TimezoneSelector,
 };
 

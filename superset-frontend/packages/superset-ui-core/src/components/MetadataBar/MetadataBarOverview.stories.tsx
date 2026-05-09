@@ -20,7 +20,7 @@
 import Markdown from 'markdown-to-jsx';
 
 export default {
-  title: 'Design System/Components/MetadataBar/Overview',
+  title: 'Data Display/MetadataBar/Overview',
 };
 
 export const MetadataBarOverview = () => (

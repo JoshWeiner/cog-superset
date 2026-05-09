@@ -20,7 +20,7 @@ import { Avatar } from '.';
 import type { AvatarProps } from './types';
 
 export default {
-  title: 'Components/Avatar',
+  title: 'Primitives/Avatar',
   component: Avatar,
 };
 

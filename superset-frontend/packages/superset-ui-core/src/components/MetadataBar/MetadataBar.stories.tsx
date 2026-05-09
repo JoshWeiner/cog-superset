@@ -21,7 +21,7 @@ import { useResizeDetector } from 'react-resize-detector';
 import MetadataBar, { MetadataBarProps, MetadataType } from '.';
 
 export default {
-  title: 'Design System/Components/MetadataBar',
+  title: 'Data Display/MetadataBar',
   component: MetadataBar,
   parameters: {
     docs: {

@@ -29,7 +29,7 @@ type SkeletonStoryArgs = SkeletonProps & {
 };
 
 export default {
-  title: 'Components/Skeleton',
+  title: 'Feedback/Skeleton',
   component: Skeleton,
   subcomponents: { Avatar, Button, Input, Image },
   parameters: {

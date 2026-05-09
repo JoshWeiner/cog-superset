@@ -42,7 +42,7 @@ type AnyColumns = ColumnInstance<object>[];
 type AnyPrepareRow = (row: Row<object>) => void;
 
 export default {
-  title: 'Components/TableCollection',
+  title: 'Data Display/TableCollection',
   component: TableCollection,
 } as Meta<typeof TableCollection>;
 

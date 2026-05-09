@@ -20,7 +20,7 @@ import { Steps as AntdSteps } from 'antd';
 import { Steps, type StepsProps } from '.';
 
 export default {
-  title: 'Components/Steps',
+  title: 'Navigation/Steps',
   component: Steps as typeof AntdSteps,
   parameters: {
     docs: {

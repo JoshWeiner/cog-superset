@@ -22,7 +22,7 @@ import { AutoComplete } from '.';
 import type { AutoCompleteProps } from './types';
 
 export default {
-  title: 'Components/AutoComplete',
+  title: 'Forms/AutoComplete',
   component: AutoComplete,
   argTypes: {
     style: {

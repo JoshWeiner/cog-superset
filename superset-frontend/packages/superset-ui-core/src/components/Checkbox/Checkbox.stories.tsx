@@ -22,7 +22,7 @@ import { Checkbox } from '.';
 import type { CheckboxProps, CheckboxChangeEvent } from './types';
 
 export default {
-  title: 'Components/Checkbox',
+  title: 'Forms/Checkbox',
   component: Checkbox,
   parameters: {
     docs: {

@@ -27,7 +27,7 @@ const sampleItems = [
 ];
 
 export default {
-  title: 'Components/Breadcrumb',
+  title: 'Navigation/Breadcrumb',
   component: Breadcrumb,
   argTypes: {
     separator: {

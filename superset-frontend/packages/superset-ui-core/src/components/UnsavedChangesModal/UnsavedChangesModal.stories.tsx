@@ -20,7 +20,7 @@ import { ReactElement } from 'react';
 import { UnsavedChangesModal, type UnsavedChangesModalProps } from '.';
 
 export default {
-  title: 'Components/UnsavedChangesModal',
+  title: 'Overlays/UnsavedChangesModal',
   component: UnsavedChangesModal,
 };
 

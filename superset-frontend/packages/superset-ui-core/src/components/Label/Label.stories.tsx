@@ -23,7 +23,7 @@ import { Label, DatasetTypeLabel, PublishedLabel } from '.';
 
 // Define the default export with Storybook configuration
 export default {
-  title: 'Components/Label',
+  title: 'Primitives/Label',
   component: Label,
   excludeStories: ['options'],
 } as Meta<typeof Label>;

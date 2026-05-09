@@ -23,7 +23,7 @@ import type { CertifiedBadgeProps } from './types';
 configureTranslation();
 
 export default {
-  title: 'Components/CertifiedBadgeWithTooltip',
+  title: 'Primitives/CertifiedBadge',
 };
 
 export const InteractiveIcon = (args: CertifiedBadgeProps) => (

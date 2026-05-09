@@ -23,7 +23,7 @@ import { Row, Col } from '.';
 import type { ColProps, RowProps } from './types';
 
 export default {
-  title: 'Design System/Components/Grid',
+  title: 'Primitives/Grid',
   component: Row,
   subcomponents: { Col },
   parameters: {

@@ -21,7 +21,7 @@ import ActionCell from './index';
 import { exampleMenuOptions, exampleRow } from './fixtures';
 
 export default {
-  title: 'Design System/Components/Table/Cell Renderers/ActionCell',
+  title: 'Data Display/Table/Cell Renderers/ActionCell',
   component: ActionCell,
 } as Meta<typeof ActionCell>;
 

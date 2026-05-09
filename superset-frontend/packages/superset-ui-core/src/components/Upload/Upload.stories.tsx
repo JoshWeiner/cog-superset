@@ -22,7 +22,7 @@ import { Button } from '../Button';
 import { Upload } from '.';
 
 export default {
-  title: 'Components/Upload',
+  title: 'Forms/Upload',
   component: Upload,
   parameters: {
     docs: {

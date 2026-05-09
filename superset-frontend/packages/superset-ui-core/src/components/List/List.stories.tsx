@@ -21,7 +21,7 @@ import { List } from '.';
 import type { ListProps } from './types';
 
 export default {
-  title: 'Components/List',
+  title: 'Data Display/List',
   component: List,
 };
 

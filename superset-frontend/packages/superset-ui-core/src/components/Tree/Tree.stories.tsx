@@ -21,7 +21,7 @@ import { Icons } from '@superset-ui/core/components/Icons';
 import Tree, { TreeProps, type TreeDataNode } from './index';
 
 export default {
-  title: 'Components/Tree',
+  title: 'Data Display/Tree',
   component: Tree,
   parameters: {
     docs: {

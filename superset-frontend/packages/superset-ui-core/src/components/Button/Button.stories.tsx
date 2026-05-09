@@ -25,7 +25,7 @@ type ButtonSize = Pick<ButtonProps, 'buttonSize'>;
 type ButtonSizeValue = ButtonSize[keyof ButtonSize];
 
 export default {
-  title: 'Components/Button',
+  title: 'Primitives/Button',
   component: Button,
   includeStories: ['ButtonGallery', 'InteractiveButton'],
 };

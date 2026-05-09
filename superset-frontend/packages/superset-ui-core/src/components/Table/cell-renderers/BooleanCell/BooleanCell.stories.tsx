@@ -20,7 +20,7 @@ import { StoryFn, Meta } from '@storybook/react';
 import BooleanCell from '.';
 
 export default {
-  title: 'Design System/Components/Table/Cell Renderers/BooleanCell',
+  title: 'Data Display/Table/Cell Renderers/BooleanCell',
   component: BooleanCell,
 } as Meta<typeof BooleanCell>;
 

@@ -20,7 +20,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ListViewCard } from '.';
 
 export default {
-  title: 'Components/ListViewCard',
+  title: 'Data Display/ListViewCard',
   component: ListViewCard,
   parameters: {
     docs: {

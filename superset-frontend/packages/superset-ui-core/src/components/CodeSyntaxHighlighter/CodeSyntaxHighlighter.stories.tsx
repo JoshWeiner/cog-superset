@@ -138,7 +138,7 @@ import CodeSyntaxHighlighter from '@superset-ui/core/components/CodeSyntaxHighli
 };
 
 export default {
-  title: 'Components/CodeSyntaxHighlighter',
+  title: 'Desktop Only/CodeSyntaxHighlighter',
   component: CodeSyntaxHighlighter,
   parameters: {
     docs: {

@@ -20,7 +20,7 @@ import { Meta, StoryFn } from '@storybook/react';
 import { SafeMarkdown } from './SafeMarkdown';
 
 export default {
-  title: 'Components/SafeMarkdown',
+  title: 'Data Display/SafeMarkdown',
   component: SafeMarkdown,
 } as Meta<typeof SafeMarkdown>;
 

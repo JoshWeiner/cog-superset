@@ -21,7 +21,7 @@ import { DropdownButton } from '.';
 import type { DropdownButtonProps } from './types';
 
 export default {
-  title: 'Components/DropdownButton',
+  title: 'Navigation/DropdownButton',
 };
 
 const menu = (

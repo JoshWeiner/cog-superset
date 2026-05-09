@@ -19,7 +19,7 @@
 import Slider, { SliderSingleProps, SliderRangeProps } from '.';
 
 export default {
-  title: 'Components/Slider',
+  title: 'Forms/Slider',
   component: Slider,
   parameters: {
     docs: {

@@ -22,7 +22,7 @@ import type { ButtonGroupProps } from './types';
 import { ButtonGroup } from '.';
 
 export default {
-  title: 'Components/ButtonGroup',
+  title: 'Primitives/ButtonGroup',
   component: ButtonGroup,
   parameters: {
     docs: {

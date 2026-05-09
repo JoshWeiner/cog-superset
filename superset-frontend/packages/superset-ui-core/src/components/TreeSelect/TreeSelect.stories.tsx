@@ -20,7 +20,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { TreeSelect, type TreeSelectProps } from '.';
 
 export default {
-  title: 'Components/TreeSelect',
+  title: 'Forms/TreeSelect',
   component: TreeSelect,
   parameters: {
     docs: {

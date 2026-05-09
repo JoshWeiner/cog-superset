@@ -20,7 +20,7 @@ import { Popover, PopoverProps } from '@superset-ui/core/components/Popover';
 import { Button } from '../Button';
 
 export default {
-  title: 'Components/Popover',
+  title: 'Overlays/Popover',
   component: Popover,
   parameters: {
     docs: {

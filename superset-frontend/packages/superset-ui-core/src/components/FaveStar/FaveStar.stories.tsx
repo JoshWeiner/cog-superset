@@ -20,7 +20,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { FaveStar } from '.';
 
 export default {
-  title: 'Components/FaveStar',
+  title: 'Primitives/FaveStar',
   component: FaveStar,
   argTypes: {
     itemId: {

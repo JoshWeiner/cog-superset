@@ -20,7 +20,7 @@ import { useArgs } from '@storybook/preview-api';
 import { Switch, type SwitchProps } from '.';
 
 export default {
-  title: 'Components/Switch',
+  title: 'Forms/Switch',
   parameters: {
     docs: {
       description: {

@@ -22,7 +22,7 @@ import { IconTooltip } from '.';
 import type { IconTooltipProps } from './types';
 
 export default {
-  title: 'Components/IconTooltip',
+  title: 'Overlays/IconTooltip',
 };
 
 const PLACEMENTS = [

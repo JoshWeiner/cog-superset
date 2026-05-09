@@ -20,7 +20,7 @@
 import Markdown from 'markdown-to-jsx';
 
 export default {
-  title: 'Design System/Components/DropdownContainer/Overview',
+  title: 'Navigation/DropdownContainer/Overview',
 };
 
 export const Overview = () => (

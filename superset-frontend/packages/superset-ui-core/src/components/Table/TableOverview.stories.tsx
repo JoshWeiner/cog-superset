@@ -19,7 +19,7 @@
 import Markdown from 'markdown-to-jsx';
 
 export default {
-  title: 'Design System/Components/Table/TableOverview',
+  title: 'Data Display/Table/TableOverview',
 };
 
 export const Overview = () => (

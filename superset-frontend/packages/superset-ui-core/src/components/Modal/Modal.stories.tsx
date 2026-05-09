@@ -22,7 +22,7 @@ import { Modal } from './Modal';
 import type { ModalProps, ModalFuncProps } from './types';
 
 export default {
-  title: 'Components/Modal',
+  title: 'Overlays/Modal',
   component: Modal,
   parameters: {
     docs: {

@@ -19,7 +19,7 @@
 import { Space, type SpaceProps } from '.';
 
 export default {
-  title: 'Design System/Components/Space',
+  title: 'Primitives/Space',
   component: Space,
 };
 

@@ -20,7 +20,7 @@ import { Card } from '.';
 import type { CardProps } from './types';
 
 export default {
-  title: 'Components/Card',
+  title: 'Primitives/Card',
   component: Card,
   parameters: {
     docs: {

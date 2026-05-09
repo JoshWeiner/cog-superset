@@ -31,7 +31,7 @@ const emptyStates = [
 ];
 
 export default {
-  title: 'Components/EmptyState',
+  title: 'Feedback/EmptyState',
   component: EmptyState,
 } as Meta;
 

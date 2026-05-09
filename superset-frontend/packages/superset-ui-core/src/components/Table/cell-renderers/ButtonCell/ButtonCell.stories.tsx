@@ -21,7 +21,7 @@ import { action } from '@storybook/addon-actions';
 import { ButtonCell } from './index';
 
 export default {
-  title: 'Design System/Components/Table/Cell Renderers/ButtonCell',
+  title: 'Data Display/Table/Cell Renderers/ButtonCell',
   component: ButtonCell,
 } as Meta<typeof ButtonCell>;
 
