@@ -17,21 +17,18 @@
  * under the License.
  */
 
-import { validateMaxValue } from '@superset-ui/core';
-import './setup';
+import validateNonEmpty from './validateNonEmpty';
 
-test('validateMaxValue returns the warning message if invalid', () => {
-  expect(validateMaxValue(10.1, 10)).toBeTruthy();
-  expect(validateMaxValue(1, 0)).toBeTruthy();
-  expect(validateMaxValue('2', 1)).toBeTruthy();
-});
-
-test('validateMaxValue returns false if the input is valid', () => {
-  expect(validateMaxValue(0, 1)).toBeFalsy();
-  expect(validateMaxValue(10, 10)).toBeFalsy();
-  expect(validateMaxValue(undefined, 1)).toBeFalsy();
-  expect(validateMaxValue(NaN, NaN)).toBeFalsy();
-  expect(validateMaxValue(null, 1)).toBeFalsy();
-  expect(validateMaxValue('1', 1)).toBeFalsy();
-  expect(validateMaxValue('a', 1)).toBeFalsy();
+describe('validateNonEmpty()', () => {
+  test('returns the warning message if invalid', () => {
+    expect(validateNonEmpty([])).toBeTruthy();
+    expect(validateNonEmpty(undefined)).toBeTruthy();
+    expect(validateNonEmpty(null)).toBeTruthy();
+    expect(validateNonEmpty('')).toBeTruthy();
+  });
+  test('returns false if the input is valid', () => {
+    expect(validateNonEmpty(0)).toBeFalsy();
+    expect(validateNonEmpty(10)).toBeFalsy();
+    expect(validateNonEmpty('abc')).toBeFalsy();
+  });
 });

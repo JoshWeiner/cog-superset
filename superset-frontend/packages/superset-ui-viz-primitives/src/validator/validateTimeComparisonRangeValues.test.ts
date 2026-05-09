@@ -17,11 +17,9 @@
  * under the License.
  */
 
-import {
+import validateTimeComparisonRangeValues, {
   ComparisonTimeRangeType,
-  validateTimeComparisonRangeValues,
-} from '@superset-ui/core';
-import './setup';
+} from './validateTimeComparisonRangeValues';
 
 describe('validateTimeComparisonRangeValues()', () => {
   test('returns the warning message if invalid', () => {

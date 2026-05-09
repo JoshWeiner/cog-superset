@@ -16,8 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { validateMapboxStylesUrl } from '@superset-ui/core';
-import './setup';
+import validateMapboxStylesUrl from './validateMapboxStylesUrl';
 
 describe('validateMapboxStylesUrl', () => {
   test('should validate mapbox style URLs', () => {

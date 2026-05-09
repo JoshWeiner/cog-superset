@@ -22,8 +22,8 @@ import {
   SupersetClient,
   getClientErrorObject,
   ClientErrorObject,
-  setValidatorTranslator,
 } from '@superset-ui/core';
+import { setValidatorTranslator } from '@superset-ui/viz-primitives';
 import { t } from '@apache-superset/core/translation';
 import setupErrorMessages from 'src/setup/setupErrorMessages';
 

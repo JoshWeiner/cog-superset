@@ -17,19 +17,15 @@
  * under the License.
  */
 
-import { validateNonEmpty } from '@superset-ui/core';
-import './setup';
-
-describe('validateNonEmpty()', () => {
-  test('returns the warning message if invalid', () => {
-    expect(validateNonEmpty([])).toBeTruthy();
-    expect(validateNonEmpty(undefined)).toBeTruthy();
-    expect(validateNonEmpty(null)).toBeTruthy();
-    expect(validateNonEmpty('')).toBeTruthy();
-  });
-  test('returns false if the input is valid', () => {
-    expect(validateNonEmpty(0)).toBeFalsy();
-    expect(validateNonEmpty(10)).toBeFalsy();
-    expect(validateNonEmpty('abc')).toBeFalsy();
-  });
-});
+export * from './types';
+export { setValidatorTranslator } from './i18n';
+export type { Translator as ValidatorTranslator } from './i18n';
+export { default as legacyValidateInteger } from './legacyValidateInteger';
+export { default as legacyValidateNumber } from './legacyValidateNumber';
+export { default as validateInteger } from './validateInteger';
+export { default as validateNumber } from './validateNumber';
+export { default as validateNonEmpty } from './validateNonEmpty';
+export { default as validateMaxValue } from './validateMaxValue';
+export { default as validateMapboxStylesUrl } from './validateMapboxStylesUrl';
+export { default as validateTimeComparisonRangeValues } from './validateTimeComparisonRangeValues';
+export { default as validateServerPagination } from './validateServerPagination';

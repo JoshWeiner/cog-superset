@@ -21,6 +21,9 @@
   "references": [
     {
       "path": "../superset-core"
+    },
+    {
+      "path": "../superset-ui-viz-primitives"
     }
   ]
 }

@@ -17,8 +17,7 @@
  * under the License.
  */
 
-import { validateServerPagination } from '@superset-ui/core';
-import './setup';
+import validateServerPagination from './validateServerPagination';
 
 const DEFAULT_MAX_ROW = 100000;
 const DEFAULT_MAX_ROW_TABLE_SERVER = 500000;

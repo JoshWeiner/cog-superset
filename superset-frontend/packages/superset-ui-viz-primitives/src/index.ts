@@ -18,3 +18,5 @@
  */
 
 export const VIZ_PRIMITIVES_VERSION = '0.20.4';
+
+export * from './validator';

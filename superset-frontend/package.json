@@ -151,6 +151,7 @@
     "@superset-ui/plugin-chart-table": "file:./plugins/plugin-chart-table",
     "@superset-ui/plugin-chart-word-cloud": "file:./plugins/plugin-chart-word-cloud",
     "@superset-ui/switchboard": "file:./packages/superset-ui-switchboard",
+    "@superset-ui/viz-primitives": "file:./packages/superset-ui-viz-primitives",
     "@types/d3-format": "^3.0.1",
     "@types/d3-selection": "^3.0.11",
     "@types/d3-time-format": "^4.0.3",

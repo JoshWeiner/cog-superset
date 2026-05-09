@@ -17,15 +17,10 @@
  * under the License.
  */
 
-export * from './types';
-export { setValidatorTranslator } from './i18n';
-export type { Translator as ValidatorTranslator } from './i18n';
-export { default as legacyValidateInteger } from './legacyValidateInteger';
-export { default as legacyValidateNumber } from './legacyValidateNumber';
-export { default as validateInteger } from './validateInteger';
-export { default as validateNumber } from './validateNumber';
-export { default as validateNonEmpty } from './validateNonEmpty';
-export { default as validateMaxValue } from './validateMaxValue';
-export { default as validateMapboxStylesUrl } from './validateMapboxStylesUrl';
-export { default as validateTimeComparisonRangeValues } from './validateTimeComparisonRangeValues';
-export { default as validateServerPagination } from './validateServerPagination';
+/**
+ * The validator subsystem lives in `@superset-ui/viz-primitives`. Re-export
+ * its public API from `@superset-ui/core` so existing consumers
+ * (`import { validateNumber } from '@superset-ui/core'`) keep working
+ * unchanged.
+ */
+export * from '@superset-ui/viz-primitives';

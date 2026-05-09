@@ -17,21 +17,21 @@
  * under the License.
  */
 
-import { ComparisonTimeRangeType } from '../time-comparison';
-import { tr as t } from './i18n';
-import { ensureIsArray } from '../utils';
+import validateNumber from './validateNumber';
 
-export const validateTimeComparisonRangeValues = (
-  timeRangeValue?: unknown,
-  controlValue?: unknown,
-): string[] => {
-  const isCustomTimeRange = timeRangeValue === ComparisonTimeRangeType.Custom;
-  const isCustomControlEmpty =
-    Array.isArray(controlValue) &&
-    controlValue.every((val: unknown) => ensureIsArray(val).length === 0);
-  return isCustomTimeRange && isCustomControlEmpty
-    ? [t('Filters for comparison must have a value')]
-    : [];
-};
-
-export default validateTimeComparisonRangeValues;
+describe('validateNumber()', () => {
+  test('returns the warning message if invalid', () => {
+    expect(validateNumber(NaN)).toBeTruthy();
+    expect(validateNumber(Infinity)).toBeTruthy();
+    expect(validateNumber(undefined)).toBeTruthy();
+    expect(validateNumber(null)).toBeTruthy();
+    expect(validateNumber('abc')).toBeTruthy();
+    expect(validateNumber('')).toBeTruthy();
+  });
+  test('returns false if the input is valid', () => {
+    expect(validateNumber(0)).toBeFalsy();
+    expect(validateNumber(10.1)).toBeFalsy();
+    expect(validateNumber(10)).toBeFalsy();
+    expect(validateNumber('10')).toBeFalsy();
+  });
+});
