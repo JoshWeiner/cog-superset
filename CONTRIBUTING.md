@@ -36,3 +36,49 @@ The Developer Portal includes comprehensive guides for:
 - [Development How-tos](https://superset.apache.org/developer_portal/contributing/howtos)
 
 Source for the Developer Portal documentation is [located here](https://github.com/apache/superset/tree/master/docs/developer_portal).
+
+## Running targeted tests
+
+When you change a single backend or frontend module, prefer running only the
+tests for that module instead of the full suite. The commands below cover the
+most useful targeted invocations; `AGENTS.md` lists additional variants.
+
+### Backend (pytest)
+
+Run the unit tests for a single Python module by passing the matching test path
+to `pytest`. For example, the unit tests that mirror `superset/charts/` live in
+`tests/unit_tests/charts/`:
+
+```bash
+# Whole module
+pytest tests/unit_tests/charts/
+
+# Single file
+pytest tests/unit_tests/charts/test_schemas.py
+
+# Single test (node id)
+pytest tests/unit_tests/charts/test_schemas.py::test_get_time_grain_choices
+```
+
+`pytest.ini` sets `testpaths = tests`, so paths are relative to the repository
+root. Integration tests under `tests/integration_tests/` follow the same
+pattern but require a configured test database.
+
+### Frontend (Jest)
+
+The frontend monorepo lives in `superset-frontend/`. Run Jest against a single
+test file by passing its path after `--`:
+
+```bash
+cd superset-frontend
+
+# Single file
+npm run test -- src/filters/components/Range/RangeFilterPlugin.test.tsx
+
+# All tests in a directory (path is treated as a regex by Jest)
+npm run test -- src/filters/components/Range/
+```
+
+The `test` script in `superset-frontend/package.json` invokes Jest directly, so
+any extra flags are forwarded to Jest (for example `--watch` or
+`-t "renders correctly"`).
