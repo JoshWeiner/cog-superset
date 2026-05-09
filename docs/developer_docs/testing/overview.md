@@ -92,6 +92,48 @@ npm run playwright:test
 npm run test:coverage
 ```
 
+### Targeted test commands
+
+When you change a single backend or frontend module, run only its tests for fast feedback. Both runners accept a path to a single test file as well as filters for narrowing further.
+
+#### Backend (pytest)
+
+```bash
+# Run every test in a single Python module
+pytest tests/unit_tests/charts/test_chart_data_api.py
+
+# Run a single test function (or class::method) within that module
+pytest tests/unit_tests/charts/test_chart_data_api.py::test_get_data_sets_g_form_data_without_dashboard_filter
+
+# Filter by test-name substring across a directory
+pytest tests/unit_tests/charts/ -k "chart_data"
+
+# Stop on first failure for faster iteration
+pytest tests/unit_tests/charts/test_chart_data_api.py -x
+```
+
+See the [pytest docs on test selection](https://docs.pytest.org/en/stable/how-to/usage.html#specifying-which-tests-to-run) for more options.
+
+#### Frontend (Jest, via `npm run test`)
+
+```bash
+cd superset-frontend
+
+# Run every test in a single component file
+npm run test -- src/components/Chart/ChartRenderer.test.tsx
+
+# Run all tests under a directory by path pattern
+npm run test -- --testPathPattern=src/components/Chart
+
+# Filter by test name within a file
+npm run test -- src/components/Chart/ChartRenderer.test.tsx -t "should render SuperChart"
+
+# Run only the tests related to changed source files
+npm run test -- --findRelatedTests src/components/Chart/ChartRenderer.tsx
+```
+
+The `--` separator is required so npm forwards the remaining flags to Jest. See the [Jest CLI docs](https://jestjs.io/docs/cli) for more options.
+
 ### Test Development Workflow
 1. **Write Failing Test**: Start with a test that describes the desired behavior
 2. **Implement Feature**: Write the minimum code to make the test pass
