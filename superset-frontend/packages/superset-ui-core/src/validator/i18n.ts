@@ -17,21 +17,23 @@
  * under the License.
  */
 
-import { ComparisonTimeRangeType } from '../time-comparison';
-import { tr as t } from './i18n';
-import { ensureIsArray } from '../utils';
+/**
+ * Translator adapter for the validator module.
+ *
+ * The validator package is intended to be portable and must not depend on
+ * `@apache-superset/core`. Consumers wire in their preferred translation
+ * implementation by calling `setValidatorTranslator` at application
+ * bootstrap. Until configured, the adapter falls back to an English
+ * passthrough that returns the input string unchanged.
+ */
 
-export const validateTimeComparisonRangeValues = (
-  timeRangeValue?: unknown,
-  controlValue?: unknown,
-): string[] => {
-  const isCustomTimeRange = timeRangeValue === ComparisonTimeRangeType.Custom;
-  const isCustomControlEmpty =
-    Array.isArray(controlValue) &&
-    controlValue.every((val: unknown) => ensureIsArray(val).length === 0);
-  return isCustomTimeRange && isCustomControlEmpty
-    ? [t('Filters for comparison must have a value')]
-    : [];
+export type Translator = (input: string, ...args: unknown[]) => string;
+
+let translator: Translator = (s: string) => s;
+
+export const setValidatorTranslator = (t: Translator): void => {
+  translator = t;
 };
 
-export default validateTimeComparisonRangeValues;
+export const tr: Translator = (s: string, ...args: unknown[]): string =>
+  translator(s, ...args);

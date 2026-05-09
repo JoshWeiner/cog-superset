@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { t } from '@apache-superset/core/translation';
+import { tr as t } from './i18n';
 
 export default function validateNonEmpty(v: unknown): string | false {
   if (

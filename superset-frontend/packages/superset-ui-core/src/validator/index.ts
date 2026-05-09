@@ -18,6 +18,8 @@
  */
 
 export * from './types';
+export { setValidatorTranslator } from './i18n';
+export type { Translator as ValidatorTranslator } from './i18n';
 export { default as legacyValidateInteger } from './legacyValidateInteger';
 export { default as legacyValidateNumber } from './legacyValidateNumber';
 export { default as validateInteger } from './validateInteger';

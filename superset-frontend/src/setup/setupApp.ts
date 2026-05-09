@@ -22,8 +22,12 @@ import {
   SupersetClient,
   getClientErrorObject,
   ClientErrorObject,
+  setValidatorTranslator,
 } from '@superset-ui/core';
+import { t } from '@apache-superset/core/translation';
 import setupErrorMessages from 'src/setup/setupErrorMessages';
+
+setValidatorTranslator(t);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {
