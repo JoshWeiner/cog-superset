@@ -1,0 +1,57 @@
+{
+  "name": "@superset-ui/viz-primitives",
+  "version": "0.20.4",
+  "description": "Portable visualization primitives for Superset (no react/dom/antd/emotion).",
+  "keywords": [
+    "superset",
+    "viz",
+    "primitives",
+    "portable"
+  ],
+  "homepage": "https://github.com/apache/superset/tree/master/superset-frontend/packages/superset-ui-viz-primitives#readme",
+  "bugs": {
+    "url": "https://github.com/apache/superset/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apache/superset.git",
+    "directory": "superset-frontend/packages/superset-ui-viz-primitives"
+  },
+  "license": "Apache-2.0",
+  "author": "Superset",
+  "sideEffects": false,
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "esm",
+    "lib"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.29.2",
+    "core-js": "^3.49.0",
+    "d3-format": "^3.1.2",
+    "d3-interpolate": "^3.0.1",
+    "d3-scale": "^4.0.2",
+    "d3-time": "^3.1.0",
+    "d3-time-format": "^4.1.0",
+    "lodash": "^4.18.1",
+    "regenerator-runtime": "^0.14.1",
+    "seedrandom": "^3.0.5"
+  },
+  "devDependencies": {
+    "@types/d3-format": "^3.0.4",
+    "@types/d3-interpolate": "^3.0.4",
+    "@types/d3-scale": "^2.1.1",
+    "@types/d3-time": "^3.0.4",
+    "@types/d3-time-format": "^4.0.3",
+    "@types/jest": "^30.0.0",
+    "@types/lodash": "^4.17.24",
+    "@types/seedrandom": "^3.0.8",
+    "jest": "^30.3.0",
+    "typescript": "5.4.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
