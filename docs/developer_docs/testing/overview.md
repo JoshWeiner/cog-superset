@@ -92,6 +92,66 @@ npm run playwright:test
 npm run test:coverage
 ```
 
+### Targeted Test Commands
+
+When you change a single backend or frontend module, prefer running only the
+tests that exercise that module. This gives a much faster feedback loop than
+running the full suite, and is what reviewers expect you to run locally before
+opening a PR.
+
+#### Backend (pytest)
+
+Tests for `superset/<module>.py` live under `tests/unit_tests/` (mirroring the
+package layout — for example tests for `superset/db_engine_specs/mssql.py`
+live in `tests/unit_tests/db_engine_specs/test_mssql.py`).
+
+The most useful targeted invocation when changing one Python module is:
+
+```bash
+# Run every test in a single test module
+pytest tests/unit_tests/db_engine_specs/test_mssql.py
+
+# Run a single test function (or class::method) inside that module
+pytest tests/unit_tests/db_engine_specs/test_mssql.py::test_convert_dttm
+
+# Filter by name substring across the file
+pytest tests/unit_tests/db_engine_specs/test_mssql.py -k "convert_dttm"
+
+# Show output and stop at the first failure while iterating
+pytest tests/unit_tests/db_engine_specs/test_mssql.py -x -vv
+```
+
+Replace `db_engine_specs/test_mssql.py` with the path to the test module that
+covers the file you changed. See [Backend Testing](./backend-testing) for more
+backend testing options.
+
+#### Frontend (jest)
+
+Frontend tests are colocated next to the source file as `*.test.ts` /
+`*.test.tsx` (for example `superset-frontend/src/components/Chart/Chart.test.tsx`
+covers `Chart.tsx`).
+
+The most useful targeted invocation when changing one frontend module is:
+
+```bash
+# From superset-frontend/, run a single test file
+npm run test -- src/components/Chart/Chart.test.tsx
+
+# Run any test file matching a path pattern
+npm run test -- src/components/Chart
+
+# Filter by test name within the matched files
+npm run test -- src/components/Chart -t "renders without crashing"
+
+# Re-run on file changes while iterating
+npm run tdd -- src/components/Chart
+```
+
+All frontend test commands must be run from the `superset-frontend/`
+directory. The path passed after `--` is forwarded to Jest as a regex match
+against the test file path. See [Frontend Testing](./frontend-testing) for
+more frontend testing options.
+
 ### Test Development Workflow
 1. **Write Failing Test**: Start with a test that describes the desired behavior
 2. **Implement Feature**: Write the minimum code to make the test pass
