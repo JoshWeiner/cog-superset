@@ -38,3 +38,34 @@ def test_convert_dashboard_link() -> None:
 def test_convert_dashboard_link_with_integer() -> None:
     test_url = modify_url_query(EXPLORE_DASHBOARD_LINK, standalone=0)
     assert test_url == "http://localhost:9000/superset/dashboard/3/?standalone=0"
+
+
+def test_modify_url_query_empty_query() -> None:
+    """A URL with no existing query string should gain the new parameter."""
+    test_url = modify_url_query("http://localhost:9000/explore/", standalone="0")
+    assert test_url == "http://localhost:9000/explore/?standalone=0"
+
+
+def test_modify_url_query_preserves_fragment() -> None:
+    """Fragments must be preserved when query parameters are modified."""
+    test_url = modify_url_query("http://localhost:9000/path?foo=1#section", foo="2")
+    assert test_url == "http://localhost:9000/path?foo=2#section"
+
+
+def test_modify_url_query_fragment_with_empty_query() -> None:
+    """Fragments must be preserved even when the original URL has no query."""
+    test_url = modify_url_query("http://localhost:9000/path#section", foo="1")
+    assert test_url == "http://localhost:9000/path?foo=1#section"
+
+
+def test_modify_url_query_overrides_repeated_keys() -> None:
+    """When a key appears multiple times in the original URL, the kwarg
+    override fully replaces all occurrences with the new value."""
+    test_url = modify_url_query("http://localhost:9000/path?foo=1&foo=2", foo="3")
+    assert test_url == "http://localhost:9000/path?foo=3"
+
+
+def test_modify_url_query_quotes_special_characters() -> None:
+    """Values containing characters that require URL encoding are quoted."""
+    test_url = modify_url_query("http://localhost:9000/path", q="hello world")
+    assert test_url == "http://localhost:9000/path?q=hello%20world"
