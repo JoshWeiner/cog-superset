@@ -92,6 +92,63 @@ npm run playwright:test
 npm run test:coverage
 ```
 
+### Targeted Module Tests
+
+When you change a single backend or frontend module, run only the tests
+that exercise it instead of the full suite. The commands below cover the
+common case — see [Backend Testing](./backend-testing) and
+[Frontend Testing](./frontend-testing) for additional flags.
+
+#### Backend (pytest) — single Python module
+
+Backend tests live under `tests/` and follow the `test_<module>.py`
+naming convention (see `pytest.ini` for the exact patterns). To run the
+tests for one module, point pytest at its test file:
+
+```bash
+# Run every test in a single backend module's test file
+pytest tests/unit_tests/db_engine_specs/test_athena.py
+
+# Run a single test function within that file
+pytest tests/unit_tests/db_engine_specs/test_athena.py::test_convert_dttm
+
+# Filter by name across the file (-k matches substrings)
+pytest tests/unit_tests/db_engine_specs/test_athena.py -k convert_dttm
+
+# Stop on the first failure for fast feedback while iterating
+pytest tests/unit_tests/db_engine_specs/test_athena.py -x
+```
+
+Replace the path with the test file that mirrors the module you changed
+(e.g. edits to `superset/db_engine_specs/athena.py` map to
+`tests/unit_tests/db_engine_specs/test_athena.py`).
+
+#### Frontend (jest) — single TypeScript/JS module
+
+Frontend tests sit beside the file they cover as `*.test.ts` /
+`*.test.tsx` and run through Jest, invoked via the `test` script in
+`superset-frontend/package.json`. Pass arguments to Jest after `--`:
+
+```bash
+cd superset-frontend
+
+# Run every test in a single frontend module's test file
+npm run test -- src/dashboard/components/Header/Header.test.tsx
+
+# Run only tests whose name matches a pattern (-t = --testNamePattern)
+npm run test -- src/dashboard/components/Header/Header.test.tsx -t "renders title"
+
+# Run all tests under a directory (any path or pattern Jest accepts works)
+npm run test -- src/dashboard/components/Header
+
+# Re-run on file change while iterating
+npm run test -- src/dashboard/components/Header/Header.test.tsx --watch
+```
+
+Use the path to the `.test.tsx` file colocated with the module you
+edited. Jest matches the argument as a path/regex, so a directory or
+filename fragment is also accepted.
+
 ### Test Development Workflow
 1. **Write Failing Test**: Start with a test that describes the desired behavior
 2. **Implement Feature**: Write the minimum code to make the test pass
