@@ -26,7 +26,7 @@ import {
 } from '@superset-ui/core';
 import { styled } from '@apache-superset/core/theme';
 import rison from 'rison';
-import { Collapse, ListViewCard } from '@superset-ui/core/components';
+import { Collapse, ListViewCard, Tag } from '@superset-ui/core/components';
 import { User } from 'src/types/bootstrapTypes';
 import { reject } from 'lodash';
 import {
@@ -114,6 +114,19 @@ const WelcomeContainer = styled.div`
       height: 168px;
     }
   }
+`;
+
+const BuiltWithDevin = styled.div`
+  ${({ theme }) => `
+    display: flex;
+    justify-content: center;
+    padding: ${theme.sizeUnit * 4}px 0;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  `}
 `;
 
 const WelcomeNav = styled.div`
@@ -436,6 +449,17 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
             />
           </>
         )}
+        <BuiltWithDevin>
+          <a
+            href="https://devin.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('Built with Devin')}
+            data-test="built-with-devin"
+          >
+            <Tag>{t('Built with Devin')}</Tag>
+          </a>
+        </BuiltWithDevin>
       </WelcomeContainer>
     </>
   );

@@ -280,6 +280,15 @@ test('Should render a submenu extension component if one is supplied', async () 
   expect(screen.getByText('submenu extension')).toBeInTheDocument();
 });
 
+test('Renders the "Built with Devin" attribution badge', async () => {
+  await renderWelcome();
+  const badge = await screen.findByLabelText('Built with Devin');
+  expect(badge).toBeInTheDocument();
+  expect(badge).toHaveAttribute('href', 'https://devin.ai');
+  expect(badge).toHaveAttribute('target', '_blank');
+  expect(badge.getAttribute('rel')).toMatch(/noopener/);
+});
+
 test('Should not make data fetch calls if `welcome.main.replacement` is defined', async () => {
   const extensionsRegistry = getExtensionsRegistry();
 
