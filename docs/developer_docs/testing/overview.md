@@ -92,6 +92,46 @@ npm run playwright:test
 npm run test:coverage
 ```
 
+### Targeted Test Commands
+
+When changing a single backend or frontend module, run only the tests that
+exercise it instead of the whole suite. This gives much faster feedback while
+iterating.
+
+#### Backend (pytest)
+
+Pass the path to the matching test module under `tests/unit_tests/` (or
+`tests/integration_tests/`) directly to `pytest`. For example, when changing
+`superset/db_engine_specs/athena.py`:
+
+```bash
+# Run all tests for the athena DB engine spec
+pytest tests/unit_tests/db_engine_specs/test_athena.py
+
+# Run a single test by name
+pytest tests/unit_tests/db_engine_specs/test_athena.py::test_convert_dttm
+
+# Run every test whose name matches a substring across the suite
+pytest -k convert_dttm
+```
+
+#### Frontend (jest)
+
+Tests sit beside the source as `*.test.ts` / `*.test.tsx`. From
+`superset-frontend/`, forward extra arguments to `jest` via `npm run test --`.
+For example, when changing `src/dashboard/components/PublishedStatus/`:
+
+```bash
+# Run a single test file
+npm run test -- src/dashboard/components/PublishedStatus/PublishedStatus.test.tsx
+
+# Run every test whose path matches a pattern
+npm run test -- --testPathPattern dashboard/components/PublishedStatus
+
+# Run a single test by its `test()` name
+npm run test -- -t "renders with published status"
+```
+
 ### Test Development Workflow
 1. **Write Failing Test**: Start with a test that describes the desired behavior
 2. **Implement Feature**: Write the minimum code to make the test pass
