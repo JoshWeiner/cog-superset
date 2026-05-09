@@ -92,6 +92,52 @@ npm run playwright:test
 npm run test:coverage
 ```
 
+### Targeted Test Commands
+
+When you change a single module, prefer running the tests that cover that
+module instead of the full suite. The patterns below are the fastest feedback
+loop for the common case.
+
+#### Backend (pytest)
+
+Tests for `superset/<module>.py` typically live at
+`tests/unit_tests/<module>_test.py` (or `tests/unit_tests/<sub_pkg>/test_<module>.py`
+for db engine specs and similar). Run only that file from the repo root:
+
+```bash
+# Run the unit tests for a single backend module
+pytest tests/unit_tests/db_engine_specs/test_postgres.py
+
+# Narrow further to a single test function
+pytest tests/unit_tests/db_engine_specs/test_postgres.py::test_epoch_to_dttm
+
+# Re-run only the tests that failed last time, with short tracebacks
+pytest tests/unit_tests/db_engine_specs/test_postgres.py --lf --tb=short
+```
+
+The `pytest.ini` at the repo root configures discovery, so these commands work
+from anywhere in the repo without extra flags.
+
+#### Frontend (jest)
+
+Frontend tests sit beside the file they cover as `*.test.ts(x)` and run with
+Jest via `npm run test`. Pass a path or pattern after `--` to scope the run:
+
+```bash
+# From superset-frontend/, run a single component's tests
+cd superset-frontend
+npm run test -- src/dashboard/containers/DashboardPage.test.tsx
+
+# Match every test file under a directory
+npm run test -- src/dashboard/components/SliceHeader
+
+# Filter by test name within the matched files
+npm run test -- src/dashboard --testNamePattern="renders"
+```
+
+Use `npm run test-loud` instead of `npm run test` if you need Jest's full
+console output (including `console.log` / warnings) while iterating.
+
 ### Test Development Workflow
 1. **Write Failing Test**: Start with a test that describes the desired behavior
 2. **Implement Feature**: Write the minimum code to make the test pass
