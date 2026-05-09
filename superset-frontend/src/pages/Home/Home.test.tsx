@@ -165,6 +165,16 @@ test('With sql role - renders', async () => {
   expect(await screen.findByText('Dashboards')).toBeInTheDocument();
 });
 
+test('Renders the "Built with Devin" attribution badge', async () => {
+  await renderWelcome();
+  const badge = await screen.findByTestId('built-with-devin-badge');
+  expect(badge).toBeInTheDocument();
+  expect(badge).toHaveTextContent('Built with Devin');
+  expect(badge).toHaveAttribute('href', 'https://devin.ai');
+  expect(badge).toHaveAttribute('target', '_blank');
+  expect(badge).toHaveAttribute('rel', 'noopener noreferrer');
+});
+
 test('With sql role - renders all panels on the page on page load', async () => {
   await renderWelcome();
   const panels = await screen.findAllByText(

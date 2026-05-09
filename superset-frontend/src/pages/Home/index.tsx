@@ -131,6 +131,31 @@ const WelcomeNav = styled.div`
   `}
 `;
 
+const BuiltWithDevinBadge = styled.a`
+  ${({ theme }) => `
+    display: inline-flex;
+    align-items: center;
+    gap: ${theme.sizeUnit}px;
+    margin: ${theme.sizeUnit * 4}px ${theme.sizeUnit * 6}px;
+    padding: ${theme.sizeUnit}px ${theme.sizeUnit * 2}px;
+    border: 1px solid ${theme.colorBorder};
+    border-radius: ${theme.borderRadius}px;
+    background: ${theme.colorBgContainer};
+    color: ${theme.colorTextTertiary};
+    font-size: ${theme.fontSizeSM}px;
+    line-height: 1;
+    text-decoration: none;
+    transition: color 0.2s ease, border-color 0.2s ease;
+
+    &:hover,
+    &:focus {
+      color: ${theme.colorPrimary};
+      border-color: ${theme.colorPrimary};
+      text-decoration: none;
+    }
+  `}
+`;
+
 const bootstrapData = getBootstrapData();
 
 export const LoadingCards = ({ cover }: LoadingProps) => (
@@ -436,6 +461,15 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
             />
           </>
         )}
+        <BuiltWithDevinBadge
+          href="https://devin.ai"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={t('Built with Devin')}
+          data-test="built-with-devin-badge"
+        >
+          {t('Built with Devin')}
+        </BuiltWithDevinBadge>
       </WelcomeContainer>
     </>
   );
