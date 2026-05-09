@@ -38,3 +38,45 @@ def test_convert_dashboard_link() -> None:
 def test_convert_dashboard_link_with_integer() -> None:
     test_url = modify_url_query(EXPLORE_DASHBOARD_LINK, standalone=0)
     assert test_url == "http://localhost:9000/superset/dashboard/3/?standalone=0"
+
+
+def test_modify_url_query_empty_query() -> None:
+    """Adding a parameter to a URL that has no query string appends it correctly."""
+    test_url = modify_url_query("http://localhost:9000/path", standalone="0")
+    assert test_url == "http://localhost:9000/path?standalone=0"
+
+
+def test_modify_url_query_no_kwargs_preserves_query() -> None:
+    """Calling without kwargs leaves existing single-valued query params intact."""
+    test_url = modify_url_query("http://localhost:9000/path?a=1&b=2")
+    assert test_url == "http://localhost:9000/path?a=1&b=2"
+
+
+def test_modify_url_query_preserves_fragment() -> None:
+    """Fragments must survive a query rewrite (regression for fragment handling)."""
+    test_url = modify_url_query(
+        "http://localhost:9000/path?a=1#section", standalone="0"
+    )
+    assert test_url == "http://localhost:9000/path?a=1&standalone=0#section"
+
+
+def test_modify_url_query_preserves_fragment_with_empty_query() -> None:
+    """Fragments must survive even when the input URL has no query string."""
+    test_url = modify_url_query("http://localhost:9000/path#section", standalone="0")
+    assert test_url == "http://localhost:9000/path?standalone=0#section"
+
+
+def test_modify_url_query_repeated_keys_collapses_to_first() -> None:
+    """Documents the existing behavior: repeated query keys collapse to the
+    first value when the URL is rewritten, even if the caller did not override
+    that key. This is a regression guard against silent changes to how the
+    function handles repeated keys."""
+    test_url = modify_url_query("http://localhost:9000/path?a=1&a=2", standalone="0")
+    assert test_url == "http://localhost:9000/path?a=1&standalone=0"
+
+
+def test_modify_url_query_list_value_uses_first_element() -> None:
+    """Documents the existing behavior: when a caller passes a list value,
+    only the first element is rendered into the resulting query string."""
+    test_url = modify_url_query("http://localhost:9000/path", a=["1", "2"])
+    assert test_url == "http://localhost:9000/path?a=1"
