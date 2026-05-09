@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -17,7 +17,14 @@
  * under the License.
  */
 
-export const VIZ_PRIMITIVES_VERSION = '0.20.4';
+export * from './types';
 
-export * from './time-format';
-export * from './time-comparison';
+export { default as getComparisonInfo } from './getComparisonInfo';
+export { default as getComparisonFilters } from './getComparisonFilters';
+export {
+  parseDttmToDate,
+  getTimeOffset,
+  computeCustomDateTime,
+} from './getTimeOffset';
+export { SEPARATOR, fetchTimeRange } from './fetchTimeRange';
+export { customTimeRangeDecode } from './customTimeRangeDecode';

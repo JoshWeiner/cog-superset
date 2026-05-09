@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { QueryFormData } from '../query';
+import { QueryFormData } from '@superset-ui/core';
 import { getComparisonFilters } from './getComparisonFilters';
 import { ComparisonTimeRangeType } from './types';
 

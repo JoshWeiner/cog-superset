@@ -17,14 +17,23 @@
  * under the License.
  */
 
-export * from './types';
-
-export { default as getComparisonInfo } from './getComparisonInfo';
-export { default as getComparisonFilters } from './getComparisonFilters';
+// The time-comparison module has moved to @superset-ui/viz-primitives. This
+// shim preserves the public API of @superset-ui/core unchanged.
 export {
+  ComparisonTimeRangeType,
+  getComparisonInfo,
+  getComparisonFilters,
   parseDttmToDate,
   getTimeOffset,
   computeCustomDateTime,
-} from './getTimeOffset';
-export { SEPARATOR, fetchTimeRange } from './fetchTimeRange';
-export { customTimeRangeDecode } from './customTimeRangeDecode';
+  SEPARATOR,
+  fetchTimeRange,
+  customTimeRangeDecode,
+} from '@superset-ui/viz-primitives';
+export type {
+  DateTimeGrainType,
+  CustomRangeKey,
+  DateTimeModeType,
+  CustomRangeType,
+  CustomRangeDecodeType,
+} from '@superset-ui/viz-primitives';

@@ -22,7 +22,7 @@ import {
   timeFormatLocale,
   TimeLocaleDefinition,
 } from 'd3-time-format';
-import { isRequired } from '../../utils';
+import { isRequired } from '@superset-ui/core';
 import TimeFormatter from '../TimeFormatter';
 import { LOCAL_PREFIX } from '../TimeFormats';
 

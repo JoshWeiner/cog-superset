@@ -17,8 +17,8 @@
  * under the License.
  */
 
-import { QueryFormData } from '../query';
-import { AdhocFilter } from '../types';
+import { QueryFormData } from '@superset-ui/core';
+import { AdhocFilter } from '@superset-ui/core';
 
 /**
  * This method is used to get the query filters to be applied to the comparison query after

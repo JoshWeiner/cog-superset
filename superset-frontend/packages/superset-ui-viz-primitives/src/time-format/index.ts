@@ -17,34 +17,37 @@
  * under the License.
  */
 
-// The time-format module has moved to @superset-ui/viz-primitives. This shim
-// preserves the public API of @superset-ui/core unchanged.
+export { default as TimeFormats, LOCAL_PREFIX } from './TimeFormats';
+export { default as TimeFormatter, PREVIEW_TIME } from './TimeFormatter';
+export { DEFAULT_D3_TIME_FORMAT } from './D3FormatConfig';
+
 export {
-  TimeFormats,
-  LOCAL_PREFIX,
-  TimeFormatter,
-  PREVIEW_TIME,
-  DEFAULT_D3_TIME_FORMAT,
-  getTimeFormatterRegistry,
+  default as getTimeFormatterRegistry,
   formatTime,
   formatTimeRange,
   getTimeFormatter,
   getTimeFormatterForGranularity,
   getTimeRangeFormatter,
-  createD3TimeFormatter,
-  createMultiFormatter,
+} from './TimeFormatterRegistrySingleton';
+
+export { default as createD3TimeFormatter } from './factories/createD3TimeFormatter';
+export { default as createMultiFormatter } from './factories/createMultiFormatter';
+
+export {
   SMART_DATE_ID,
   createSmartDateFormatter,
+} from './formatters/smartDate';
+export {
   SMART_DATE_DETAILED_ID,
   createSmartDateDetailedFormatter,
+} from './formatters/smartDateDetailed';
+export {
   SMART_DATE_VERBOSE_ID,
   createSmartDateVerboseFormatter,
-  finestTemporalGrainFormatter,
-  normalizeTimestamp,
-  denormalizeTimestamp,
-  TimeGranularity,
-} from '@superset-ui/viz-primitives';
-export type {
-  TimeFormatFunction,
-  TimeRangeFormatFunction,
-} from '@superset-ui/viz-primitives';
+} from './formatters/smartDateVerbose';
+export { default as finestTemporalGrainFormatter } from './formatters/finestTemporalGrain';
+
+export { default as normalizeTimestamp } from './utils/normalizeTimestamp';
+export { default as denormalizeTimestamp } from './utils/denormalizeTimestamp';
+
+export * from './types';

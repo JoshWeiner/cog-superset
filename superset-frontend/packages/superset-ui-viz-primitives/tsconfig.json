@@ -3,13 +3,17 @@
   "compilerOptions": {
     "baseUrl": "../..",
     "outDir": "lib",
-    "rootDir": "src",
     "declarationDir": "lib",
-    "lib": ["ES2020"],
+    "composite": false,
+    "noUnusedLocals": false,
+    "skipLibCheck": true,
+    "lib": ["DOM", "DOM.Iterable", "ES2020"],
     "jsx": "preserve"
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "../superset-core/types/**/*",
+    "../superset-ui-core/types/**/*"
   ],
   "exclude": [
     "src/**/*.test.*",

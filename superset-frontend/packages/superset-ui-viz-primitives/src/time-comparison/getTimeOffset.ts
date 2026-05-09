@@ -17,7 +17,7 @@
  * under the License.
  */
 import { isEmpty } from 'lodash';
-import { ensureIsArray } from '../utils';
+import { ensureIsArray } from '@superset-ui/core';
 import { customTimeRangeDecode } from './customTimeRangeDecode';
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;

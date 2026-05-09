@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { makeSingleton } from '../utils';
+import { makeSingleton } from '@superset-ui/core';
 import TimeFormatterRegistry from './TimeFormatterRegistry';
 import TimeFormatter from './TimeFormatter';
 import TimeFormatsForGranularity from './TimeFormatsForGranularity';

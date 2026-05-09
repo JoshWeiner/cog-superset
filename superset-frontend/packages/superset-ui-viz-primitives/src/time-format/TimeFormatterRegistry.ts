@@ -18,7 +18,7 @@
  */
 
 import { TimeLocaleDefinition } from 'd3-time-format';
-import { RegistryWithDefaultKey, OverwritePolicy } from '../models';
+import { RegistryWithDefaultKey, OverwritePolicy } from '@superset-ui/core';
 import { DEFAULT_D3_TIME_FORMAT } from './D3FormatConfig';
 import TimeFormats, { LOCAL_PREFIX } from './TimeFormats';
 import createD3TimeFormatter from './factories/createD3TimeFormatter';

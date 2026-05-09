@@ -16,25 +16,29 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { ExtensibleFunction } from '../models';
-import { TimeRangeFormatFunction } from './types';
+import { ExtensibleFunction } from '@superset-ui/core';
+import { isRequired } from '@superset-ui/core';
+import { TimeFormatFunction } from './types';
+import stringifyTimeInput from './utils/stringifyTimeInput';
 
 /* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
 
+export const PREVIEW_TIME = new Date(Date.UTC(2017, 1, 14, 11, 22, 33));
+
 // Use type augmentation to indicate that
 // an instance of TimeFormatter is also a function
-interface TimeRangeFormatter {
-  (value: (Date | number | null | undefined)[]): string;
+interface TimeFormatter {
+  (value: Date | number | string | null | undefined): string;
 }
 
-class TimeRangeFormatter extends ExtensibleFunction {
+class TimeFormatter extends ExtensibleFunction {
   id: string;
 
   label: string;
 
   description: string;
 
-  formatFunc: TimeRangeFormatFunction;
+  formatFunc: TimeFormatFunction;
 
   useLocalTime: boolean;
 
@@ -42,16 +46,18 @@ class TimeRangeFormatter extends ExtensibleFunction {
     id: string;
     label?: string;
     description?: string;
-    formatFunc: TimeRangeFormatFunction;
+    formatFunc: TimeFormatFunction;
     useLocalTime?: boolean;
   }) {
-    super((value: (Date | number | null | undefined)[]) => this.format(value));
+    super((value: Date | number | string | null | undefined) =>
+      this.format(value),
+    );
 
     const {
-      id,
+      id = isRequired('config.id'),
       label,
       description = '',
-      formatFunc,
+      formatFunc = isRequired('config.formatFunc'),
       useLocalTime = false,
     } = config;
 
@@ -62,9 +68,13 @@ class TimeRangeFormatter extends ExtensibleFunction {
     this.useLocalTime = useLocalTime;
   }
 
-  format(values: (Date | number | null | undefined)[]) {
-    return this.formatFunc(values);
+  format(value: Date | number | string | null | undefined) {
+    return stringifyTimeInput(value, time => this.formatFunc(time));
+  }
+
+  preview(value: Date = PREVIEW_TIME) {
+    return `${value.toUTCString()} => ${this.format(value)}`;
   }
 }
 
-export default TimeRangeFormatter;
+export default TimeFormatter;
