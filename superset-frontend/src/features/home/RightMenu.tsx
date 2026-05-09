@@ -59,6 +59,7 @@ import UploadDataModal from 'src/features/databases/UploadDataModel';
 import { uploadUserPerms } from 'src/views/CRUD/utils';
 import { useThemeContext } from 'src/theme/ThemeProvider';
 import { useThemeMenuItems } from 'src/hooks/useThemeMenuItems';
+import { DarkModeToggle } from './DarkModeToggle';
 import { useLanguageMenuItems } from './LanguagePicker';
 import {
   ExtensionConfigs,
@@ -684,6 +685,9 @@ const RightMenu = ({
             </Tag>
           );
         })()}
+      {canSetMode() && (
+        <DarkModeToggle themeMode={themeMode} setThemeMode={setThemeMode} />
+      )}
       <Menu
         css={css`
           display: flex;
