@@ -38,3 +38,33 @@ def test_convert_dashboard_link() -> None:
 def test_convert_dashboard_link_with_integer() -> None:
     test_url = modify_url_query(EXPLORE_DASHBOARD_LINK, standalone=0)
     assert test_url == "http://localhost:9000/superset/dashboard/3/?standalone=0"
+
+
+def test_modify_url_query_no_existing_query() -> None:
+    """Regression: a URL with no query string gets the new param appended cleanly."""
+    test_url = modify_url_query(
+        "http://localhost:9000/explore/",
+        standalone="0",
+    )
+    assert test_url == "http://localhost:9000/explore/?standalone=0"
+
+
+def test_modify_url_query_preserves_fragment() -> None:
+    """Regression: a URL fragment (#anchor) survives the query rewrite."""
+    test_url = modify_url_query(
+        "http://localhost:9000/explore/?form_data=%7B%7D#anchor",
+        standalone="0",
+    )
+    assert (
+        test_url
+        == "http://localhost:9000/explore/?form_data=%7B%7D&standalone=0#anchor"
+    )
+
+
+def test_modify_url_query_repeated_key_overridden() -> None:
+    """Regression: when overriding a repeated key, the value collapses to one."""
+    test_url = modify_url_query(
+        "http://localhost:9000/explore/?force=true&force=false",
+        force="false",
+    )
+    assert test_url == "http://localhost:9000/explore/?force=false"
