@@ -16,6 +16,26 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-export { ModifiedInfo } from './ModifiedInfo';
-export { CreatedInfo } from './CreatedInfo';
-export type { AuditInfoProps } from './types';
+import getOwnerName from 'src/utils/getOwnerName';
+import { t } from '@apache-superset/core/translation';
+import { Tooltip } from '@superset-ui/core/components';
+import type { AuditInfoProps } from './types';
+
+export const ModifiedInfo = ({ user, date }: AuditInfoProps) => {
+  const dateSpan = (
+    <span className="no-wrap" data-test="audit-info-date">
+      {date}
+    </span>
+  );
+
+  if (user) {
+    const userName = getOwnerName(user);
+    const title = t('Modified by: %s', userName);
+    return (
+      <Tooltip title={title} placement="bottom">
+        {dateSpan}
+      </Tooltip>
+    );
+  }
+  return dateSpan;
+};
