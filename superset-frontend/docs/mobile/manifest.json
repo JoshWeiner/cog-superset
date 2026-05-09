@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Machine-readable manifest of every mobile-modules barrel in the repository.",
+  "generatedBy": "scripts/build-mobile-manifest.mjs",
+  "bundles": [
+    {
+      "bundle": "display",
+      "path": "src/mobile-modules/display",
+      "exports": [
+        "CreatedInfo",
+        "ModifiedInfo",
+        "AuditInfoProps",
+        "Descriptions",
+        "DescriptionsProps",
+        "FacePile",
+        "FacePileProps",
+        "GenericLink",
+        "LastQueriedLabel",
+        "RowCountLabel",
+        "RowCountLabelProps"
+      ],
+      "purpose": "A small barrel module that groups read-only display / label primitives so that mobile (and other constrained) bundles can pull them in as a single unit. The components themselves are unchanged — this barrel is purely a re-export surface.",
+      "readme": "src/mobile-modules/display/README.md"
+    }
+  ]
+}
