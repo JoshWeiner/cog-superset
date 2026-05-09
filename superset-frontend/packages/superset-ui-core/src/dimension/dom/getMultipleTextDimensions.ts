@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { TextStyle, Dimension } from '../types';
+import { TextStyle, Dimension } from '@superset-ui/viz-primitives';
 import getBBoxCeil from './svg/getBBoxCeil';
 import { hiddenSvgFactory, textFactory } from './svg/factories';
 import updateTextNode from './svg/updateTextNode';

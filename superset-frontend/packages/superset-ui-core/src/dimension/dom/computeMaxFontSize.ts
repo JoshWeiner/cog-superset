@@ -17,8 +17,8 @@
  * under the License.
  */
 
+import { computeMaxFontSizeFromMeasure } from '@superset-ui/viz-primitives';
 import getTextDimension, { GetTextDimensionInput } from './getTextDimension';
-import computeMaxFontSizeFromMeasure from '../computeMaxFontSizeFromMeasure';
 
 export default function computeMaxFontSize(
   input: GetTextDimensionInput & {

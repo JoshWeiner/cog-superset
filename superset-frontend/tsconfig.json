@@ -55,6 +55,12 @@
         "./packages/superset-ui-chart-controls/src/*"
       ],
       "@superset-ui/switchboard": ["./packages/superset-ui-switchboard/src"],
+      "@superset-ui/viz-primitives": [
+        "./packages/superset-ui-viz-primitives/src"
+      ],
+      "@superset-ui/viz-primitives/*": [
+        "./packages/superset-ui-viz-primitives/src/*"
+      ],
       "@apache-superset/core": ["./packages/superset-core/src"],
       "@apache-superset/core/*": ["./packages/superset-core/src/*"],
       "@superset-ui/plugin-chart-*": ["./plugins/plugin-chart-*/src"],
@@ -79,6 +85,7 @@
     { "path": "./packages/superset-ui-core" },
     { "path": "./packages/superset-ui-chart-controls" },
     { "path": "./packages/superset-ui-switchboard" },
+    { "path": "./packages/superset-ui-viz-primitives" },
     { "path": "./plugins/legacy-plugin-chart-calendar" },
     { "path": "./plugins/legacy-plugin-chart-chord" },
     { "path": "./plugins/legacy-plugin-chart-country-map" },

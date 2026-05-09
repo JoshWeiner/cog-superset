@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -17,6 +17,12 @@
  * under the License.
  */
 
-export const VIZ_PRIMITIVES_VERSION = '0.20.4';
+export { default as parseLength } from './parseLength';
+export { default as mergeMargin } from './mergeMargin';
+export { default as computeMaxFontSizeFromMeasure } from './computeMaxFontSizeFromMeasure';
+export type {
+  MeasureTextFn,
+  ComputeMaxFontSizeFromMeasureInput,
+} from './computeMaxFontSizeFromMeasure';
 
-export * from './dimension';
+export * from './types';

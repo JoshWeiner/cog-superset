@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -16,7 +16,18 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import parseLength from './parseLength';
 
-export const VIZ_PRIMITIVES_VERSION = '0.20.4';
+test('parseLength handles "auto" and "100%"', () => {
+  expect(parseLength('auto')).toEqual({ isDynamic: true, multiplier: 1 });
+  expect(parseLength('100%')).toEqual({ isDynamic: true, multiplier: 1 });
+});
 
-export * from './dimension';
+test('parseLength handles percentage strings', () => {
+  expect(parseLength('50%')).toEqual({ isDynamic: true, multiplier: 0.5 });
+});
+
+test('parseLength handles fixed numeric values', () => {
+  expect(parseLength(200)).toEqual({ isDynamic: false, value: 200 });
+  expect(parseLength('200')).toEqual({ isDynamic: false, value: 200 });
+});

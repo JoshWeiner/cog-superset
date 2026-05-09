@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Dimension } from '../../types';
+import { Dimension } from '@superset-ui/viz-primitives';
 
 const DEFAULT_DIMENSION = { height: 20, width: 100 };
 

@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { TextStyle } from '../types';
+import { TextStyle } from '@superset-ui/viz-primitives';
 
 const STYLE_FIELDS: (keyof TextStyle)[] = [
   'font',
