@@ -92,6 +92,45 @@ npm run playwright:test
 npm run test:coverage
 ```
 
+### Targeted Tests
+
+When iterating on a single backend or frontend module, run only the tests
+relevant to your change instead of the full suite. This dramatically tightens
+the feedback loop locally.
+
+**Backend (pytest)** — run from the repo root:
+
+```bash
+# Run every test in a single file
+pytest tests/unit_tests/dao/dataset_test.py
+
+# Run a single test function (or class::method)
+pytest tests/unit_tests/dao/dataset_test.py::test_validate_update_uniqueness
+
+# Run every test in a file/directory whose name matches a pattern
+pytest tests/unit_tests/dao/ -k "create"
+
+# Stop on first failure and show local variables, useful while debugging
+pytest tests/unit_tests/dao/dataset_test.py -x -l
+```
+
+**Frontend (Jest)** — run from `superset-frontend/`:
+
+```bash
+# Run a single test file (path is forwarded to Jest)
+npm run test -- src/components/ListView/ListView.test.tsx
+
+# Run only tests whose name matches a pattern (Jest -t)
+npm run test -- src/components/ListView -t "renders pagination controls"
+
+# Watch mode for the file you are editing
+npm run tdd -- src/components/ListView/ListView.test.tsx
+```
+
+`npm run test` and `npm run tdd` are defined in
+`superset-frontend/package.json`; everything after `--` is passed straight to
+Jest, so any standard Jest CLI flag works.
+
 ### Test Development Workflow
 1. **Write Failing Test**: Start with a test that describes the desired behavior
 2. **Implement Feature**: Write the minimum code to make the test pass
