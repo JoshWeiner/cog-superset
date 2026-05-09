@@ -38,3 +38,33 @@ def test_convert_dashboard_link() -> None:
 def test_convert_dashboard_link_with_integer() -> None:
     test_url = modify_url_query(EXPLORE_DASHBOARD_LINK, standalone=0)
     assert test_url == "http://localhost:9000/superset/dashboard/3/?standalone=0"
+
+
+def test_modify_url_query_empty_query() -> None:
+    """Adding a parameter to a URL that has no query string."""
+    test_url = modify_url_query("http://localhost:9000/explore/", standalone="0")
+    assert test_url == "http://localhost:9000/explore/?standalone=0"
+
+
+def test_modify_url_query_preserves_fragment() -> None:
+    """The URL fragment must survive a query modification."""
+    test_url = modify_url_query(
+        "http://localhost:9000/explore/?standalone=true#anchor",
+        standalone="0",
+    )
+    assert test_url == "http://localhost:9000/explore/?standalone=0#anchor"
+
+
+def test_modify_url_query_repeated_keys() -> None:
+    """
+    Pin current behavior for URLs with repeated query keys.
+
+    ``modify_url_query`` collapses repeated keys to a single occurrence,
+    keeping only the first parsed value, while still applying any updates
+    requested via kwargs.
+    """
+    test_url = modify_url_query(
+        "http://localhost:9000/explore/?a=1&a=2&b=3",
+        b="4",
+    )
+    assert test_url == "http://localhost:9000/explore/?a=1&b=4"
