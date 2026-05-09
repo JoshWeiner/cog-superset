@@ -514,6 +514,80 @@ module.exports = {
         ],
       },
     },
+    // Mobile-eligible component group barrels must not pull in web-only
+    // dependencies. Consumers that need those packages should go through the
+    // desktop-only barrel instead. See
+    // packages/superset-ui-core/src/components/groups/desktop-only/.
+    {
+      files: [
+        'packages/superset-ui-core/src/components/groups/primitives/**',
+        'packages/superset-ui-core/src/components/groups/form-inputs/**',
+        'packages/superset-ui-core/src/components/groups/feedback/**',
+        'packages/superset-ui-core/src/components/groups/overlays/**',
+        'packages/superset-ui-core/src/components/groups/navigation/**',
+        'packages/superset-ui-core/src/components/groups/data-display/**',
+      ],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            paths: [
+              {
+                name: 'react-ace',
+                message:
+                  'Mobile-eligible barrels must not import react-ace. Move ace-editor usage to the desktop-only barrel.',
+              },
+              {
+                name: 'brace',
+                message:
+                  'Mobile-eligible barrels must not import brace. Move ace-editor usage to the desktop-only barrel.',
+              },
+              {
+                name: 'ace-builds',
+                message:
+                  'Mobile-eligible barrels must not import ace-builds. Move ace-editor usage to the desktop-only barrel.',
+              },
+              {
+                name: 'ag-grid-react',
+                message:
+                  'Mobile-eligible barrels must not import ag-grid-react. Move ag-grid usage to the desktop-only barrel.',
+              },
+              {
+                name: 'ag-grid-community',
+                message:
+                  'Mobile-eligible barrels must not import ag-grid-community. Move ag-grid usage to the desktop-only barrel.',
+              },
+              {
+                name: 'react-markdown',
+                message:
+                  'Mobile-eligible barrels must not import react-markdown. Move markdown rendering to the desktop-only barrel.',
+              },
+              {
+                name: 'react-syntax-highlighter',
+                message:
+                  'Mobile-eligible barrels must not import react-syntax-highlighter. Move syntax highlighting to the desktop-only barrel.',
+              },
+              {
+                name: 'react-draggable',
+                message:
+                  'Mobile-eligible barrels must not import react-draggable. Move drag-and-drop usage to the desktop-only barrel.',
+              },
+              {
+                name: 're-resizable',
+                message:
+                  'Mobile-eligible barrels must not import re-resizable. Move resize usage to the desktop-only barrel.',
+              },
+              {
+                name: 'antd',
+                message:
+                  "Mobile-eligible barrels must not import directly from 'antd'. Consume antd through the @superset-ui/core wrappers instead.",
+              },
+            ],
+            patterns: ['antd/*'],
+          },
+        ],
+      },
+    },
   ],
   ignorePatterns,
 };
