@@ -252,6 +252,15 @@ test('With toggle switch - does not show thumbnails when switch is off', async (
   );
 });
 
+test('Renders a "Built with Devin" attribution badge linking to devin.ai', async () => {
+  await renderWelcome();
+  const badge = await screen.findByRole('link', { name: 'Built with Devin' });
+  expect(badge).toBeInTheDocument();
+  expect(badge).toHaveAttribute('href', 'https://devin.ai');
+  expect(badge).toHaveAttribute('target', '_blank');
+  expect(badge).toHaveAttribute('rel', expect.stringContaining('noreferrer'));
+});
+
 test('Should render an extension component if one is supplied', async () => {
   const extensionsRegistry = getExtensionsRegistry();
 

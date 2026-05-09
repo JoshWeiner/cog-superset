@@ -131,6 +131,40 @@ const WelcomeNav = styled.div`
   `}
 `;
 
+const BuiltWithDevin = styled.div`
+  ${({ theme }) => `
+    display: flex;
+    justify-content: center;
+    padding: ${theme.sizeUnit * 4}px ${theme.sizeUnit * 4}px
+      ${theme.sizeUnit * 6}px;
+
+    a {
+      align-items: center;
+      background: ${theme.colorBgContainer};
+      border: 1px solid ${theme.colorBorder};
+      border-radius: ${theme.borderRadius}px;
+      color: ${theme.colorTextSecondary};
+      display: inline-flex;
+      font-size: ${theme.fontSizeSM}px;
+      gap: ${theme.sizeUnit}px;
+      padding: ${theme.sizeUnit}px ${theme.sizeUnit * 2}px;
+      text-decoration: none;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    a:hover,
+    a:focus-visible {
+      border-color: ${theme.colorPrimary};
+      color: ${theme.colorPrimary};
+    }
+
+    strong {
+      color: ${theme.colorText};
+      font-weight: ${theme.fontWeightStrong};
+    }
+  `}
+`;
+
 const bootstrapData = getBootstrapData();
 
 export const LoadingCards = ({ cover }: LoadingProps) => (
@@ -350,6 +384,17 @@ function Welcome({ user, addDangerToast }: WelcomeProps) {
         <SubMenu {...menuData} />
       )}
       <WelcomeContainer>
+        <BuiltWithDevin data-test="built-with-devin">
+          <a
+            href="https://devin.ai"
+            target="_blank"
+            rel="noreferrer"
+            aria-label={t('Built with Devin')}
+          >
+            <span aria-hidden>{t('Built with')}</span>
+            <strong>Devin</strong>
+          </a>
+        </BuiltWithDevin>
         {WelcomeMessageExtension && <WelcomeMessageExtension />}
         {WelcomeTopExtension && <WelcomeTopExtension />}
         {WelcomeMainExtension && <WelcomeMainExtension />}
