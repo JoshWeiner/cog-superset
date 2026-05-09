@@ -58,8 +58,8 @@ import DatabaseModal from 'src/features/databases/DatabaseModal';
 import UploadDataModal from 'src/features/databases/UploadDataModel';
 import { uploadUserPerms } from 'src/views/CRUD/utils';
 import { useThemeContext } from 'src/theme/ThemeProvider';
-import { useThemeMenuItems } from 'src/hooks/useThemeMenuItems';
 import { useLanguageMenuItems } from './LanguagePicker';
+import { ThemeToggle } from './ThemeToggle';
 import {
   ExtensionConfigs,
   GlobalMenuDataOptions,
@@ -162,14 +162,7 @@ const RightMenu = ({
     useState<boolean>(false);
   const isAdmin = isUserAdmin(user);
   const showUploads = allowUploads || isAdmin;
-  const {
-    setThemeMode,
-    themeMode,
-    clearLocalOverrides,
-    hasDevOverride,
-    canSetMode,
-    canDetectOSPreference,
-  } = useThemeContext();
+  const { canSetMode } = useThemeContext();
   const dropdownItems: MenuObjectProps[] = [
     {
       label: t('Data'),
@@ -357,15 +350,6 @@ const RightMenu = ({
       console.warn('Failed to clear storage on logout:', error);
     }
   };
-
-  // Use the theme menu hook
-  const themeMenuItem = useThemeMenuItems({
-    setThemeMode,
-    themeMode,
-    hasLocalOverride: hasDevOverride(),
-    onClearLocalSettings: clearLocalOverrides,
-    allowOSPreference: canDetectOSPreference(),
-  });
 
   const languageMenuItem = useLanguageMenuItems({
     locale: navbarRight.locale || 'en',
@@ -590,10 +574,6 @@ const RightMenu = ({
       });
     }
 
-    if (canSetMode()) {
-      items.push(themeMenuItem);
-    }
-
     if (navbarRight.show_language_picker && languageMenuItem) {
       items.push(languageMenuItem);
     }
@@ -612,9 +592,7 @@ const RightMenu = ({
     RightMenuExtension,
     navbarRight,
     showActionDropdown,
-    canSetMode,
     theme.colorPrimary,
-    themeMenuItem,
     languageMenuItem,
     dropdownItems,
     roles,
@@ -726,6 +704,7 @@ const RightMenu = ({
         disabledOverflow
         items={menuItems}
       />
+      {canSetMode() && <ThemeToggle />}
       {navbarRight.documentation_url && (
         <>
           <StyledAnchor
