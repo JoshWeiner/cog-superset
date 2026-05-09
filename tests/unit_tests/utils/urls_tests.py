@@ -38,3 +38,43 @@ def test_convert_dashboard_link() -> None:
 def test_convert_dashboard_link_with_integer() -> None:
     test_url = modify_url_query(EXPLORE_DASHBOARD_LINK, standalone=0)
     assert test_url == "http://localhost:9000/superset/dashboard/3/?standalone=0"
+
+
+def test_modify_url_query_empty_query_string() -> None:
+    """A URL with no existing query string should have the kwarg appended."""
+    test_url = modify_url_query("http://localhost:9000/explore/", standalone="0")
+    assert test_url == "http://localhost:9000/explore/?standalone=0"
+
+
+def test_modify_url_query_empty_query_string_no_kwargs() -> None:
+    """A URL with no query string and no kwargs should be returned unchanged."""
+    test_url = modify_url_query("http://localhost:9000/explore/")
+    assert test_url == "http://localhost:9000/explore/"
+
+
+def test_modify_url_query_preserves_fragment() -> None:
+    """A fragment present on the input URL must be preserved on the output."""
+    test_url = modify_url_query(
+        "http://localhost:9000/explore/?a=1#section", standalone="0"
+    )
+    assert test_url == "http://localhost:9000/explore/?a=1&standalone=0#section"
+
+
+def test_modify_url_query_fragment_without_query() -> None:
+    """A fragment must be preserved even when the input URL has no query string."""
+    test_url = modify_url_query(
+        "http://localhost:9000/explore/#section", standalone="0"
+    )
+    assert test_url == "http://localhost:9000/explore/?standalone=0#section"
+
+
+def test_modify_url_query_repeated_key_overridden() -> None:
+    """When a kwarg overrides a repeated query key, only the kwarg value remains."""
+    test_url = modify_url_query("http://localhost:9000/explore/?a=1&a=2", a="3")
+    assert test_url == "http://localhost:9000/explore/?a=3"
+
+
+def test_modify_url_query_repeated_key_not_overridden_keeps_first() -> None:
+    """An untouched repeated query key collapses to its first value (current behavior)."""
+    test_url = modify_url_query("http://localhost:9000/explore/?a=1&a=2", b="3")
+    assert test_url == "http://localhost:9000/explore/?a=1&b=3"
