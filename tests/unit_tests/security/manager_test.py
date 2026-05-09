@@ -19,6 +19,7 @@
 
 import json  # noqa: TID251
 from types import SimpleNamespace
+from typing import Any
 
 import pytest
 from flask_appbuilder.security.sqla.models import Role, User
@@ -1547,3 +1548,190 @@ def test_validate_child_in_parent_multilayer_null_params(
     assert not sm._validate_child_in_parent_multilayer(
         child_slice_id=1, parent_slice=parent_slice
     )
+
+
+def _build_jwt_request(mocker: MockerFixture, auth_header: str) -> Any:
+    """Build a mock Flask request with the given Authorization header."""
+    request = mocker.MagicMock()
+    request.headers = {"Authorization": auth_header} if auth_header else {}
+    return request
+
+
+def test_request_loader_no_authorization_header(
+    app_context: None, mocker: MockerFixture
+) -> None:
+    """request_loader returns None when no Authorization header is present."""
+    sm = SupersetSecurityManager(appbuilder)
+    mocker.patch(
+        "superset.extensions.feature_flag_manager.is_feature_enabled",
+        return_value=False,
+    )
+    request = _build_jwt_request(mocker, "")
+
+    assert sm.request_loader(request) is None
+
+
+def test_request_loader_non_bearer_authorization_header(
+    app_context: None, mocker: MockerFixture
+) -> None:
+    """
+    request_loader ignores non-Bearer Authorization schemes (e.g. Basic) and
+    returns None.
+    """
+    sm = SupersetSecurityManager(appbuilder)
+    mocker.patch(
+        "superset.extensions.feature_flag_manager.is_feature_enabled",
+        return_value=False,
+    )
+    request = _build_jwt_request(mocker, "Basic dXNlcjpwYXNz")
+
+    assert sm.request_loader(request) is None
+
+
+def test_request_loader_jwt_bearer_resolves_user(
+    app_context: None, mocker: MockerFixture
+) -> None:
+    """
+    request_loader resolves an authenticated user from a JWT Bearer token so
+    that Flask-Login's current_user (and thus g.user) is populated for
+    downstream filters (apache/superset#39834).
+    """
+    sm = SupersetSecurityManager(appbuilder)
+    mocker.patch(
+        "superset.extensions.feature_flag_manager.is_feature_enabled",
+        return_value=False,
+    )
+
+    user = mocker.MagicMock()
+    user.is_active = True
+    mocker.patch(
+        "flask_jwt_extended.verify_jwt_in_request",
+        return_value=None,
+    )
+    mocker.patch("flask_jwt_extended.get_jwt_identity", return_value=42)
+    mocker.patch.object(sm, "load_user", return_value=user)
+
+    request = _build_jwt_request(mocker, "Bearer some.jwt.token")
+
+    assert sm.request_loader(request) is user
+
+
+def test_request_loader_jwt_bearer_inactive_user(
+    app_context: None, mocker: MockerFixture
+) -> None:
+    """request_loader does not authenticate inactive users via JWT."""
+    sm = SupersetSecurityManager(appbuilder)
+    mocker.patch(
+        "superset.extensions.feature_flag_manager.is_feature_enabled",
+        return_value=False,
+    )
+
+    user = mocker.MagicMock()
+    user.is_active = False
+    mocker.patch(
+        "flask_jwt_extended.verify_jwt_in_request",
+        return_value=None,
+    )
+    mocker.patch("flask_jwt_extended.get_jwt_identity", return_value=42)
+    mocker.patch.object(sm, "load_user", return_value=user)
+
+    request = _build_jwt_request(mocker, "Bearer some.jwt.token")
+
+    assert sm.request_loader(request) is None
+
+
+def test_request_loader_jwt_bearer_invalid_token(
+    app_context: None, mocker: MockerFixture
+) -> None:
+    """
+    request_loader silently returns None for malformed/expired Bearer tokens.
+    The downstream @protect() decorator is responsible for rejecting the
+    request.
+    """
+    sm = SupersetSecurityManager(appbuilder)
+    mocker.patch(
+        "superset.extensions.feature_flag_manager.is_feature_enabled",
+        return_value=False,
+    )
+
+    mocker.patch(
+        "flask_jwt_extended.verify_jwt_in_request",
+        side_effect=Exception("invalid token"),
+    )
+    load_user = mocker.patch.object(sm, "load_user")
+
+    request = _build_jwt_request(mocker, "Bearer bogus.token.value")
+
+    assert sm.request_loader(request) is None
+    load_user.assert_not_called()
+
+
+def test_request_loader_jwt_bearer_unknown_user(
+    app_context: None, mocker: MockerFixture
+) -> None:
+    """request_loader returns None when the JWT identity does not exist."""
+    sm = SupersetSecurityManager(appbuilder)
+    mocker.patch(
+        "superset.extensions.feature_flag_manager.is_feature_enabled",
+        return_value=False,
+    )
+
+    mocker.patch(
+        "flask_jwt_extended.verify_jwt_in_request",
+        return_value=None,
+    )
+    mocker.patch("flask_jwt_extended.get_jwt_identity", return_value=99)
+    mocker.patch.object(sm, "load_user", return_value=None)
+
+    request = _build_jwt_request(mocker, "Bearer some.jwt.token")
+
+    assert sm.request_loader(request) is None
+
+
+def test_request_loader_embedded_guest_user_takes_precedence(
+    app_context: None, mocker: MockerFixture
+) -> None:
+    """
+    When EMBEDDED_SUPERSET is enabled and a guest user is present on the
+    request, request_loader returns the guest user without consulting the
+    JWT loader.
+    """
+    sm = SupersetSecurityManager(appbuilder)
+    mocker.patch(
+        "superset.extensions.feature_flag_manager.is_feature_enabled",
+        return_value=True,
+    )
+
+    guest_user = mocker.MagicMock()
+    mocker.patch.object(sm, "get_guest_user_from_request", return_value=guest_user)
+    jwt_loader = mocker.patch.object(sm, "_load_user_from_jwt_request")
+
+    request = _build_jwt_request(mocker, "Bearer some.jwt.token")
+
+    assert sm.request_loader(request) is guest_user
+    jwt_loader.assert_not_called()
+
+
+def test_request_loader_embedded_falls_back_to_jwt(
+    app_context: None, mocker: MockerFixture
+) -> None:
+    """
+    When EMBEDDED_SUPERSET is enabled but no guest user is present, the
+    JWT Bearer loader still runs.
+    """
+    sm = SupersetSecurityManager(appbuilder)
+    mocker.patch(
+        "superset.extensions.feature_flag_manager.is_feature_enabled",
+        return_value=True,
+    )
+
+    mocker.patch.object(sm, "get_guest_user_from_request", return_value=None)
+    user = mocker.MagicMock()
+    jwt_loader = mocker.patch.object(
+        sm, "_load_user_from_jwt_request", return_value=user
+    )
+
+    request = _build_jwt_request(mocker, "Bearer some.jwt.token")
+
+    assert sm.request_loader(request) is user
+    jwt_loader.assert_called_once_with(request)

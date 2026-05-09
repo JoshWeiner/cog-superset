@@ -657,8 +657,53 @@ class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
         from superset.extensions import feature_flag_manager
 
         if feature_flag_manager.is_feature_enabled("EMBEDDED_SUPERSET"):
-            return self.get_guest_user_from_request(request)
-        return None
+            guest_user = self.get_guest_user_from_request(request)
+            if guest_user is not None:
+                return guest_user
+
+        # Resolve the user from a JWT Bearer token for programmatic API
+        # clients (upstream apache/superset#39834). FAB's @protect()
+        # decorator verifies the JWT but does not populate Flask-Login's
+        # current_user, which leaves g.user as the anonymous proxy when
+        # downstream filters (e.g. DatabaseFilter, DatasourceFilter) run,
+        # causing list endpoints to return empty results for authenticated
+        # users. By teaching Flask-Login's request_loader to recognize the
+        # Bearer token, current_user (and thus g.user) is populated as
+        # expected for the rest of the request lifecycle.
+        return self._load_user_from_jwt_request(request)
+
+    def _load_user_from_jwt_request(self, request: Request) -> Optional[User]:
+        """
+        Load the authenticated user from a JWT Bearer token on the request.
+
+        Returns None when no Bearer token is present, the token cannot be
+        decoded, or the resolved user is missing/inactive.
+        """
+        auth_header = request.headers.get("Authorization", "")
+        if not auth_header.startswith("Bearer "):
+            return None
+
+        # pylint: disable=import-outside-toplevel
+        try:
+            from flask_jwt_extended import (
+                get_jwt_identity,
+                verify_jwt_in_request,
+            )
+
+            verify_jwt_in_request(optional=True)
+            identity = get_jwt_identity()
+        except Exception:  # pylint: disable=broad-except
+            # Malformed/expired tokens fall through to FAB's normal handling,
+            # which will reject the request via the @protect() decorator.
+            return None
+
+        if identity is None:
+            return None
+
+        user = self.load_user(identity)
+        if user is None or not user.is_active:
+            return None
+        return user
 
     def get_catalog_perm(
         self,
