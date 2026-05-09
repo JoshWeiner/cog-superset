@@ -60,6 +60,7 @@ import { uploadUserPerms } from 'src/views/CRUD/utils';
 import { useThemeContext } from 'src/theme/ThemeProvider';
 import { useThemeMenuItems } from 'src/hooks/useThemeMenuItems';
 import { useLanguageMenuItems } from './LanguagePicker';
+import { DarkModeToggle } from './DarkModeToggle';
 import {
   ExtensionConfigs,
   GlobalMenuDataOptions,
@@ -684,6 +685,7 @@ const RightMenu = ({
             </Tag>
           );
         })()}
+      <DarkModeToggle />
       <Menu
         css={css`
           display: flex;
