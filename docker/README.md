@@ -117,3 +117,21 @@ It is possible to run Superset in non-development mode by using [`docker-compose
 ## Resource Constraints
 
 If you are attempting to build on macOS and it exits with 137 you need to increase your Docker resources. See instructions [here](https://docs.docker.com/docker-for-mac/#advanced) (search for memory)
+
+## Troubleshooting
+
+### Frontend runtime errors after pulling new changes
+
+If you start the stack with `docker compose up -d` after pulling new changes and see
+browser runtime errors such as `ReferenceError: module is not defined` coming from
+bundled assets (for example, from `stylis`, `@emotion/cache`, or other vendored
+modules), you are likely running against stale images or a stale node bundle.
+
+Rebuild the images and bundles with the `--build` flag:
+
+```bash
+docker compose up --build -d
+```
+
+After significant changes land on the mainline branch, refreshing the images this
+way is the recommended way to pick up updated dependencies and frontend bundles.
